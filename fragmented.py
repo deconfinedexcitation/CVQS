@@ -83,8 +83,6 @@ class Arbfrag:
 
             state=[]
             for k in range(N+1):
-                for j in range(N+1):
-                    if j+k==N:
-                        state.append(xx[np.int(g[j,k])])
+                        state.append(xx[np.int(g[N-k,k])])
             state=state/np.linalg.norm(state)
             return state
