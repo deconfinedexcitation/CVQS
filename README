@@ -2,7 +2,11 @@ CVQS Continuous Variable Quantum States
 
 Module for generating commonly encountered CV quantum states
 
+Dev: TJV (2019-)
+
 TODO:
 
 1. Gaussian state Fock amplitudes given covariance matrix
 2. Maximally correlated states with energy constraint
+
+
