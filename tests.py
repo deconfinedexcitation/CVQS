@@ -14,29 +14,30 @@ import pair_fragmented as pfrag
 from pair_fragmented import Pairfrag
 
 #Number of particles
-N=64
+N=128
 
 
-# #Generate state instance
-# test=frag.Arbfrag(N)
-# test.N
-# teststate=test.state(32,-np.pi/4,-np.pi/6)
-# #Check the basis indices
-# test.g()
-#
-#
-# #Plot the state
-# plt.figure(figsize=(8,4))
-# axes = plt.gca()
-# axes.plot(teststate,'k-')
-# np.sum(np.square(teststate))
-
-#Number of particles
-N=64
 #Generate state instance
-test=pfrag.Pairfrag(N)
-state=test.state(10,-np.pi/4,np.pi/3,np.pi/4,np.pi/4)
+test=frag.Arbfrag(N)
+test.N
+teststate=test.state(32,-np.pi/4,-np.pi/6)
+#Check the basis indices
+test.g()
+
+
 #Plot the state
 plt.figure(figsize=(8,4))
 axes = plt.gca()
-axes.plot(state,'k-')
+axes.plot(teststate,'k-')
+np.sum(np.square(teststate))
+teststate
+
+# #Number of particles
+# N=64
+# #Generate state instance
+# test=pfrag.Pairfrag(N)
+# state=test.state(10,-np.pi/4,np.pi/3,np.pi/4,np.pi/4)
+# #Plot the state
+# plt.figure(figsize=(8,4))
+# axes = plt.gca()
+# axes.plot(state,'k-')

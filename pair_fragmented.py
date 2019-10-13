@@ -90,7 +90,7 @@ class Pairfrag:
             state=[]
 
             for k in range(N+1):
-                state.append(xx[np.int(g[N-k,k])])
+                state.append(xx[np.int(g[k,N-k])])
             state=np.asarray(state)
             state=state/np.linalg.norm(state)
         return state
