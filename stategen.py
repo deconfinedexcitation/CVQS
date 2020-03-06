@@ -144,3 +144,20 @@ def evencat(ener):
     ms=ms/np.linalg.norm(ms)
     return ms
 
+
+# SU(2) coherent states.
+def JYm(n):
+    #J_{y} in spin-n/2 rep'n
+    Jp=np.zeros((n+1,n+1))
+    for k in range(0, np.int(n)):
+        Jp[k+1][k]=np.sqrt((n-k)*(k+1))
+    Jym=(1/(2*(1.0*1j)))*(np.array(Jp)-np.transpose(np.array(Jp)))
+    return Jym
+
+def JYm2(n):
+    #This is (1j)*JYm
+    Jp=np.zeros((n+1,n+1))
+    for k in range(0, np.int(n)):
+        Jp[k+1][k]=np.sqrt((n-k)*(k+1))
+    Jym=(1/2)*(np.array(Jp)-np.transpose(np.array(Jp)))
+    return Jym
