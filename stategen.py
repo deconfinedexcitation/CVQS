@@ -145,7 +145,8 @@ def evencat(ener):
     return ms
 
 
-# SU(2) coherent states.
+# SU(2) coherent states. Uses stereographic projection from south pole.
+# Opposite of Perelomov's convention.
 def JYm(n):
     #J_{y} in spin-n/2 rep'n
     Jp=np.zeros((n+1,n+1))
