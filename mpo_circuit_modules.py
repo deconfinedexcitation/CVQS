@@ -76,3 +76,42 @@ def CZtiparam2(th,N):
                  [(np.exp((1j)*th)-1)*Po,(np.exp((1j)*th)-1)*Po] ])]
     Q+=[np.array([[I],[(np.exp((1j)*th)-1)*Po]])]
     return Q
+
+
+def isingint(n):
+    #Ising interaction on (C^{2})^{\otimes n} with p.b.c.. Not an MPO
+    zz=-(1/2)*np.kron(Sz,Sz)
+    c=np.kron(zz,np.identity(2**(n-2)))
+    for j in range(1,n-2):
+        c+=np.kron( np.kron(np.identity(2**j),zz),np.identity(2**(n-j-2)) )
+    c=c+np.kron(np.identity(2**(n-2)),zz)
+    #The (n,1) term for p.b.c.
+    c=c+((-1/2)*np.kron(np.kron(Sz,np.identity(2**(n-2))),Sz))
+    return c
+
+
+
+
+def ising_int_mpo(n):
+        #Ising interaction MPO
+        #\sum_{j=1}^{n-1}\sigma_{z}^{(j)}\otimes \sigma_{z}^{(j+1)}
+    loc1 =np.array([[Z, Sz, I   ]])
+    loc=np.array([[I,  Z, Z  ],\
+                  [Sz  , Z, Z],\
+                  [Z, Sz, I]])
+    loc2 =np.array([[I], [Sz], [Z] ])
+    if n>2:
+        loccost=[loc1]+([loc]*(np.int(n)-2))+[loc2]
+    else:
+        loccost=[loc1]+[loc2]
+    return loccost
+
+def ising_int_dyn(gamma,n):
+    #MPO for e^{-i\gamma \sum_{j=1}^{n-1}Z_{j}\otimes Z_{j+1}}
+    #CXXVI p.74
+    Q1 =np.array([[np.cos(gamma)*I, -(1j)*np.sin(gamma)*Sz   ]])
+    Q=np.array([[np.cos(gamma)*I,  -(1j)*np.sin(gamma)*Sz  ],
+             [np.cos(gamma)*Sz  , -(1j)*np.sin(gamma)*I]])
+    Q2=np.array([[I],[Sz]])
+    driv=[Q1]+([Q]*(n-2))+[Q2]
+    return driv
