@@ -57,7 +57,7 @@ def CZti(N):
     return Q
 
 def CZtiparam(th,N):
-    #\prod_{j=1}^{n-1}CZ_{j,j+1} with MPO of bond dimension 4. CXXVI p.88
+    #e^{i\theta \prod_{j=1}^{n-1}CZ_{j,j+1} } with MPO of bond dimension 4. CXXVI p.88
     Q=[np.array([[np.sqrt((1/2)*np.cos(th))*I,np.sqrt((1/2)*np.cos(th))*I,np.sqrt((1j)*np.sin(th))*Pz,np.sqrt((1j)*np.sin(th))*Po]])]
     for j in range(1,N-1):
         Q+=[np.array([[(1/2)*np.cos(th)*I,(1/2)*np.cos(th)*I,(1/2)*np.sqrt((1j)*np.sin(2*th))*Pz, (1/2)*np.sqrt((1j)*np.sin(2*th))*Po ],
@@ -68,7 +68,7 @@ def CZtiparam(th,N):
     return Q
 
 def CZtiparam2(th,N):
-    #\prod_{j=1}^{n-1}CZ_{j,j+1} with MPO of bond dimension 2.
+    #e^{i\theta \prod_{j=1}^{n-1}CZ_{j,j+1} } with MPO of bond dimension 2.
     #Note that e^{-\theta CZ}=1\otimes 1 + (e^{i\theta}-1)\ket{1}\bra{1}\otimes \ket{1}\bra{1}
     Q=[np.array([[I,Po]])]
     for j in range(1,N-1):
@@ -76,6 +76,8 @@ def CZtiparam2(th,N):
                  [(np.exp((1j)*th)-1)*Po,(np.exp((1j)*th)-1)*Po] ])]
     Q+=[np.array([[I],[(np.exp((1j)*th)-1)*Po]])]
     return Q
+
+
 
 
 def isingint(n):
@@ -93,7 +95,7 @@ def isingint(n):
 
 
 def ising_int_mpo(n):
-        #Ising interaction MPO
+        #Ising interaction MPO. See Pirvu or Chan ``A simplified and improved...''
         #\sum_{j=1}^{n-1}\sigma_{z}^{(j)}\otimes \sigma_{z}^{(j+1)}
     loc1 =np.array([[Z, Sz, I   ]])
     loc=np.array([[I,  Z, Z  ],\
