@@ -9,6 +9,10 @@ I = np.identity(2)
 Z = np.zeros((2,2))
 Sz = np.array([[1, 0],
              [0, -1]])
+Sx = np.array([[0, 1],
+             [1, 0]])
+Sy = np.array([[0, -(1j)],
+             [(1j), 0]])
 #Next is (-i/2)\sigma_{y}
 miov2Sy = np.array([[0, -0.5],
              [0.5, 0]])
