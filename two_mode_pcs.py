@@ -4,6 +4,9 @@ import scipy as sp
 from scipy import sparse
 from scipy.sparse import csr_matrix,coo_matrix
 
+# CXXIII p.33
+# CXXV p.81
+
 class Pcs:
     def __init__(self,numPtcl):
         self.N=numPtcl

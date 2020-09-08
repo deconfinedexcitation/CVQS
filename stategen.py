@@ -5,6 +5,7 @@ from numpy import linalg
 from numpy.polynomial.hermite import hermval
 from scipy.special import comb,hermite
 from scipy.special import factorial
+from scipy.linalg import expm, sinm, cosm
 from scipy import sparse
 from scipy.sparse import csr_matrix,coo_matrix
 from scipy.optimize import curve_fit
