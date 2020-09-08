@@ -148,18 +148,31 @@ def evencat(ener):
 
 # SU(2) coherent states. Uses stereographic projection from south pole.
 # Opposite of Perelomov's convention.
-def JYm(n):
-    #J_{y} in spin-n/2 rep'n
+
+def Jplus(n):
     Jp=np.zeros((n+1,n+1))
     for k in range(0, np.int(n)):
-        Jp[k+1][k]=np.sqrt((n-k)*(k+1))
-    Jym=(1/(2*(1.0*1j)))*(np.array(Jp)-np.transpose(np.array(Jp)))
+        Jp[k][k+1]=np.sqrt((n-k)*(k+1))
+    return np.array(Jp)
+    
+def Jminus(n):    
+    return np.transpose(np.array(Jplus(n)))
+    
+def JYm(n):
+    #J_{y} in spin-n/2 rep'n
+    xx=Jplus(n)
+    Jym=(1/(2*(1.0*1j)))*(np.array(xx)-np.transpose(np.array(xx)))
     return Jym
 
 def JYm2(n):
     #This is (1j)*JYm
-    Jp=np.zeros((n+1,n+1))
-    for k in range(0, np.int(n)):
-        Jp[k+1][k]=np.sqrt((n-k)*(k+1))
-    Jym=(1/2)*(np.array(Jp)-np.transpose(np.array(Jp)))
+    xx=Jplus(n)
+    Jym=(1/2)*(np.array(xx)-np.transpose(np.array(xx)))
     return Jym
+    
+def su2cs(phi,thet,n):
+    invec=np.zeros(n+1)
+    invec[0]=1
+    f=expm(np.exp(-(1j)*phi)*np.tan(thet/2)*Jminus(n))@np.transpose(invec)
+    f=f/np.sqrt(np.abs(np.dot(np.conj(f),f)))
+    return f
