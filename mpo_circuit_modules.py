@@ -30,6 +30,9 @@ def expsx(th):
 def expsy(th):
     return np.array([[np.cos(th/2),-np.sin(th/2)],[np.sin(th/2),np.cos(th/2)]])
 
+def hada:
+    return (1/np.sqrt(2))*np.array([[1,1],[1,-1]])
+
 def expsxlayer(N,th):
     ulist2=[ np.array( [ [  expsx(th)  ] ] ) ]
     for j in range(1,N):
