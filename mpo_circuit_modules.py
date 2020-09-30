@@ -29,9 +29,93 @@ def expsx(th):
     return np.array([[np.cos(th/2),-(1j)*np.sin(th/2)],[-(1j)*np.sin(th/2),np.cos(th/2)]])
 def expsy(th):
     return np.array([[np.cos(th/2),-np.sin(th/2)],[np.sin(th/2),np.cos(th/2)]])
-
-def hada:
+def rz(theta):
+    return np.array([[1,0],[0,np.cos(theta)+((1j)*np.sin(theta))]])
+    
+def genqub(th1,phi,th2):
+    a=np.cos(th1)*np.identity(2)
+    b=(1j)*np.sin(th1)*( (np.sin(th2)*np.cos(phi)*Sx)+(np.sin(th2)*np.sin(phi)*Sy)+(np.cos(th2)*Sz) )
+    return a+b
+def hada():
     return (1/np.sqrt(2))*np.array([[1,1],[1,-1]])
+    
+## Two qubit gates
+
+def cz(theta):
+    gg=np.array([[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,np.exp((1j)*theta)]])
+    return gg
+    
+def cnot():
+    gg=np.array([[1,0,0,0],[0,1,0,0],[0,0,0,1],[0,0,1,0]])
+    return gg
+    
+#CZ(\theta) gate on register (a,b)
+def czloc(theta,a,b,n):
+    if a<b:
+        if a==1 and b==2:
+            return np.kron(cz(theta),np.identity(2**(n-2)))
+        elif a==1 and b!=2:
+            return (swap(2,b,n)@np.kron(cz(theta),np.identity(2**(n-2)))@swap(2,b,n))
+        else:
+            return swap(1,a,n)@(swap(2,b,n)@np.kron(cz(theta),np.identity(2**(n-2)))@swap(2,b,n))@swap(1,a,n)
+    if a>b:
+        if a==2 and b==1:
+            return swap(1,2,n)@np.kron(cz(theta),np.identity(2**(n-2)))@swap(1,2,n)
+        elif a!=2 and b==1:
+            return (swap(2,a,n)@swap(1,2,n)@np.kron(cz(theta),np.identity(2**(n-2)))@swap(1,2,n)@swap(2,a,n))
+        else:
+            return swap(1,b,n)@(swap(2,a,n)@swap(1,2,n)@np.kron(cz(theta),np.identity(2**(n-2)))@swap(1,2,n)@swap(2,a,n))@swap(1,b,n)
+        
+        
+#CNOT gate on register (a,b)
+def cnotloc(a,b,n):
+    if a<b:
+        if a==1 and b==2:
+            return np.kron(cnot(),np.identity(2**(n-2)))
+        elif a==1 and b!=2:
+            return (swap(2,b,n)@np.kron(cnot(),np.identity(2**(n-2)))@swap(2,b,n))
+        else:
+            return swap(1,a,n)@(swap(2,b,n)@np.kron(cnot(),np.identity(4))@swap(2,b,n))@swap(1,a,n)
+    if b<a:
+        if a==2 and b==1:
+            return swap(1,2,n)@np.kron(cnot(),np.identity(2**(n-2)))@swap(1,2,n)
+        elif a!=2 and b==1:
+            return (swap(2,a,n)@swap(1,2,n)@np.kron(cnot(),np.identity(2**(n-2)))@swap(1,2,n)@swap(2,a,n))
+        else:
+            return swap(1,b,n)@((swap(2,a,n)@swap(1,2,n)@np.kron(cnot(),np.identity(2**(n-2)))@swap(1,2,n)@swap(2,a,n)))@swap(1,b,n)
+
+
+
+def swap(a,b,n):
+        #b must be greater than a
+#     if (a==1)&(b==n):
+#         ss=np.kron(np.kron(mcm.Sx,np.identity(2**(n-2))),mcm.Sx)
+#         tt=np.kron(np.kron(mcm.Sy,np.identity(2**(n-2))),mcm.Sy)
+#         uu=np.kron(np.kron(mcm.Sz,np.identity(2**(n-2))),mcm.Sz)
+#     elif (a==1)&(b!=n):
+#         ss=np.kron( np.kron(np.kron(mcm.Sx,np.identity(2**(b-2))),mcm.Sx),np.identity(2**(n-b)) )
+#         tt=np.kron( np.kron(np.kron(mcm.Sy,np.identity(2**(b-2))),mcm.Sy),np.identity(2**(n-b)) )
+#         uu=np.kron( np.kron(np.kron(mcm.Sz,np.identity(2**(b-2))),mcm.Sz),np.identity(2**(n-b)) )
+#     elif (a!=1)&(b==n):
+#         ss=np.kron(np.identity(2**(a-1)),  np.kron(mcm.Sx,np.kron( np.identity(2**(n-a-1)),mcm.Sx )) )
+#         tt=np.kron(np.identity(2**(a-1)),  np.kron(mcm.Sy,np.kron( np.identity(2**(n-a-1)),mcm.Sy )) )
+#         uu=np.kron(np.identity(2**(a-1)),  np.kron(mcm.Sz,np.kron( np.identity(2**(n-a-1)),mcm.Sz )) )
+    if (a==1):
+        ss=np.kron( np.kron(np.kron(Sx,np.identity(2**(b-2))),Sx),np.identity(2**(n-b)) )
+        tt=np.kron( np.kron(np.kron(Sy,np.identity(2**(b-2))),Sy),np.identity(2**(n-b)) )
+        uu=np.kron( np.kron(np.kron(Sz,np.identity(2**(b-2))),Sz),np.identity(2**(n-b)) )
+    if (b==n):
+        ss=np.kron(np.identity(2**(a-1)),  np.kron(Sx,np.kron( np.identity(2**(n-a-1)),Sx )) )
+        tt=np.kron(np.identity(2**(a-1)),  np.kron(Sy,np.kron( np.identity(2**(n-a-1)),Sy )) )
+        uu=np.kron(np.identity(2**(a-1)),  np.kron(Sz,np.kron( np.identity(2**(n-a-1)),Sz )) )
+    if (a!=1) and (b!=n):
+        ss=np.kron(np.kron(np.identity(2**(a-1)),  np.kron(Sx,np.kron( np.identity(2**(b-a-1)),Sx )) ),np.identity(2**(n-b)) )
+        tt=np.kron(np.kron(np.identity(2**(a-1)),  np.kron(Sy,np.kron( np.identity(2**(b-a-1)),Sy )) ),np.identity(2**(n-b)) )
+        uu=np.kron(np.kron(np.identity(2**(a-1)),  np.kron(Sz,np.kron( np.identity(2**(b-a-1)),Sz )) ),np.identity(2**(n-b)) )
+    sw=np.real(np.exp((1j)*(np.pi/4))*expm(-(1j)*(np.pi/4)*(ss+tt+uu)))
+    return sw    
+    
+####### Layers for MPOs
 
 def expsxlayer(N,th):
     ulist2=[ np.array( [ [  expsx(th)  ] ] ) ]
