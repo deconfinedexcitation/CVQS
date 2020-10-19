@@ -33,8 +33,9 @@ def rz(theta):
     return np.array([[1,0],[0,np.cos(theta)+((1j)*np.sin(theta))]])
     
 def genqub(th1,phi,th2):
-    a=np.cos(th1)*np.identity(2)
-    b=(1j)*np.sin(th1)*( (np.sin(th2)*np.cos(phi)*Sx)+(np.sin(th2)*np.sin(phi)*Sy)+(np.cos(th2)*Sz) )
+# e^{i(\th_{1}/2)*(\sin \th_{2} \cos \phi , \sin \th_{2} \sin \phi , \cos \th_{2})\cdot \sigma}
+    a=np.cos(th1/2)*np.identity(2)
+    b=(1j)*np.sin(th1/2)*( (np.sin(th2)*np.cos(phi)*Sx)+(np.sin(th2)*np.sin(phi)*Sy)+(np.cos(th2)*Sz) )
     return a+b
 def hada():
     return (1/np.sqrt(2))*np.array([[1,1],[1,-1]])

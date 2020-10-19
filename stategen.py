@@ -149,6 +149,7 @@ def evencat(ener):
 
 # SU(2) coherent states. Uses stereographic projection from south pole.
 # Opposite of Perelomov's convention.
+# o.n.b. |N-k,k> for k=0,1,\ldots , N
 
 def Jplus(n):
     Jp=np.zeros((n+1,n+1))
@@ -159,11 +160,23 @@ def Jplus(n):
 def Jminus(n):    
     return np.transpose(np.array(Jplus(n)))
     
+def Jz_south(n):
+    Jz=np.zeros((n+1,n+1))
+    for k in range(np.int(n)+1):
+        Jz[k][k]=(1/2)*(n-(2*k))
+    return np.array(Jz)
+    
 def JYm(n):
     #J_{y} in spin-n/2 rep'n
     xx=Jplus(n)
     Jym=(1/(2*(1.0*1j)))*(np.array(xx)-np.transpose(np.array(xx)))
     return Jym
+    
+def JXm(n):
+    #J_{x} in spin-n/2 rep'n
+    xx=Jplus(n)
+    Jxm=(1/2)*(np.array(xx)+np.transpose(np.array(xx)))
+    return Jxm
 
 def JYm2(n):
     #This is (1j)*JYm
@@ -175,5 +188,48 @@ def su2cs(phi,thet,n):
     invec=np.zeros(n+1)
     invec[0]=1
     f=expm(np.exp(-(1j)*phi)*np.tan(thet/2)*Jminus(n))@np.transpose(invec)
+    f=f/np.sqrt(np.abs(np.dot(np.conj(f),f)))
+    return f
+    
+# SU(2) coherent states. Uses stereographic projection from north pole.
+# o.n.b. |k,N-k> for k=0,1,\ldots ,N
+
+def Jplus_north(n):
+    Jp=np.zeros((n+1,n+1))
+    for k in range(0, np.int(n)):
+        Jp[k+1][k]=np.sqrt((n-k)*(k+1))
+    return np.array(Jp)
+    
+def Jminus_north(n):    
+    return np.transpose(np.array(Jplus_north(n)))
+
+def Jz_north(n):
+    Jz=np.zeros((n+1,n+1))
+    for k in range(np.int(n)+1):
+        Jz[k][k]=(1/2)*((2*k)-n)
+    return np.array(Jz)
+    
+def JYm_north(n):
+    #J_{y} in spin-n/2 rep'n
+    xx=Jplus_north(n)
+    Jym=(1/(2*(1.0*1j)))*(np.array(xx)-np.transpose(np.array(xx)))
+    return Jym
+    
+def JXm_north(n):
+    #J_{x} in spin-n/2 rep'n
+    xx=Jplus_north(n)
+    Jxm=(1/2)*(np.array(xx)+np.transpose(np.array(xx)))
+    return Jxm
+
+def JYm2_north(n):
+    #This is (1j)*JYm
+    xx=Jplus_north(n)
+    Jym=(1/2)*(np.array(xx)-np.transpose(np.array(xx)))
+    return Jym
+    
+def su2cs_north(phi,thet,n):
+    invec=np.zeros(n+1)
+    invec[0]=1
+    f=expm(np.exp(-(1j)*phi)*np.tan(thet/2)*Jplus_north(n))@np.transpose(invec)
     f=f/np.sqrt(np.abs(np.dot(np.conj(f),f)))
     return f
