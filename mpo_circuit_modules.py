@@ -46,6 +46,10 @@ def cz(theta):
     gg=np.array([[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,np.exp((1j)*theta)]])
     return gg
     
+def cx(theta):
+    gg=np.array([[1,0,0,0],[0,1,0,0],[0,0,np.cos(theta),(1j)*np.sin(theta)],[0,0,(1j)*np.sin(theta),np.cos(theta)]])
+    return gg
+
 def cnot():
     gg=np.array([[1,0,0,0],[0,1,0,0],[0,0,0,1],[0,0,1,0]])
     return gg
@@ -66,6 +70,23 @@ def czloc(theta,a,b,n):
             return (swap(2,a,n)@swap(1,2,n)@np.kron(cz(theta),np.identity(2**(n-2)))@swap(1,2,n)@swap(2,a,n))
         else:
             return swap(1,b,n)@(swap(2,a,n)@swap(1,2,n)@np.kron(cz(theta),np.identity(2**(n-2)))@swap(1,2,n)@swap(2,a,n))@swap(1,b,n)
+
+#CX(\theta) gate on register (a,b)
+def cxloc(theta,a,b,n):
+    if a<b:
+        if a==1 and b==2:
+            return np.kron(cx(theta),np.identity(2**(n-2)))
+        elif a==1 and b!=2:
+            return (swap(2,b,n)@np.kron(cx(theta),np.identity(2**(n-2)))@swap(2,b,n))
+        else:
+            return swap(1,a,n)@(swap(2,b,n)@np.kron(cx(theta),np.identity(2**(n-2)))@swap(2,b,n))@swap(1,a,n)
+    if a>b:
+        if a==2 and b==1:
+            return swap(1,2,n)@np.kron(cx(theta),np.identity(2**(n-2)))@swap(1,2,n)
+        elif a!=2 and b==1:
+            return (swap(2,a,n)@swap(1,2,n)@np.kron(cx(theta),np.identity(2**(n-2)))@swap(1,2,n)@swap(2,a,n))
+        else:
+            return swap(1,b,n)@(swap(2,a,n)@swap(1,2,n)@np.kron(cx(theta),np.identity(2**(n-2)))@swap(1,2,n)@swap(2,a,n))@swap(1,b,n)
         
         
 #CNOT gate on register (a,b)
