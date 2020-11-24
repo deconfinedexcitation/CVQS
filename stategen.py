@@ -17,6 +17,9 @@ from matplotlib import pyplot as plt
 #C XXIV p.129
 
 #The QuantumOptics.jl package (based on QuTiP) calculates the coherent state from the unitary displacement operator.
+# Xanadu codes the unitary squeezing, unitary displacement, unitary two-mode squeezing operators, etc. in
+# fock_gradients.py in their package TheWalrus.
+
 
 #Note that specifying the Fock amplitudes of the coherent state either iteratively or explicitly via np.float64( np.exp( -((alpha**2)/2) - np.log(np.sqrt(factorial(j))) + (  j*np.log(alph)  )  )  ) gives error or erroneous results for large energy.
 
@@ -61,7 +64,7 @@ def sqham(r,cut):
     H=H-np.transpose(H)
     return H
 
-#Coherent state
+#Coherent state from generator
 def coh(ener):
     cut=np.ceil(10*(ener))
     cut=np.int(cut)
@@ -69,6 +72,16 @@ def coh(ener):
     ms[0]=1
     ms=sp.sparse.linalg.expm_multiply(   dispham(np.sqrt(ener),cut)   ,ms)
     return ms
+
+#Coherent state by recursion
+
+def cohrec(ener,cutoff):
+    vv=np.zeros(cutoff)
+    vv[0]=1
+    for j in range(cutoff-1):
+        vv[j+1]=np.sqrt(ener)*(1/np.sqrt(j+1))*vv[j]
+    st=np.exp(-(1/2)*ener)*vv
+    return st
 
 #Coherent state via quantum central limit
 def cohcl(ener,N):
