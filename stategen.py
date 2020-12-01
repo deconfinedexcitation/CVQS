@@ -18,7 +18,8 @@ from matplotlib import pyplot as plt
 
 #The QuantumOptics.jl package (based on QuTiP) calculates the coherent state from the unitary displacement operator.
 # Xanadu codes the unitary squeezing, unitary displacement, unitary two-mode squeezing operators, etc. in
-# fock_gradients.py in their package TheWalrus.
+# fock_gradients.py in their package TheWalrus. They use a recursive method from Quesada "Fast optimization of parameterized quantum
+# optical circuits"
 
 
 #Note that specifying the Fock amplitudes of the coherent state either iteratively or explicitly via np.float64( np.exp( -((alpha**2)/2) - np.log(np.sqrt(factorial(j))) + (  j*np.log(alph)  )  )  ) gives error or erroneous results for large energy.
