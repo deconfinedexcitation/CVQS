@@ -64,6 +64,27 @@ def sqham(r,cut):
     H=coo_matrix((Hdata, (Hrow, Hcol)), shape=(cut, cut)).tocsr()
     H=H-np.transpose(H)
     return H
+    
+#Kerr gate in Fock basis.
+
+def kerr(time,kappa, cutoff, dtype=np.complex128):  
+    r"""Calculates the matrix elements of the Kerr gate e^{-it\kappa (a^{*}a)^{2}} using a recurrence relation.
+
+    Args:
+        r (float): time
+        kappa (float): nonlinearity
+        cutoff (int): Fock ladder cutoff
+        dtype (data type): Specifies the data type used for the calculation
+
+    Returns:
+        array[complex]: matrix representing the single mode Kerr evolution
+    """
+    nlin=np.exp(-(1j) * time*kappa)
+    S = np.zeros((cutoff, cutoff), dtype=dtype)
+    S[0,0]=1
+    for n in range(cutoff-1):
+        S[n+1,n+1]=(nlin**((2*n)+1))*S[n,n]
+    return S
 
 #Coherent state from generator
 def coh(ener):
