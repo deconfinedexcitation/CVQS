@@ -207,6 +207,12 @@ def JYm(n):
     Jym=(1/(2*(1.0*1j)))*(np.array(xx)-np.transpose(np.array(xx)))
     return Jym
     
+def JZm(n):
+    Jp=np.zeros((n+1,n+1))
+    for k in range(0, np.int(n)):
+        Jz[k][k+1]=(1/2)*(N-(2*k))
+    return np.array(Jz)
+    
 def JXm(n):
     #J_{x} in spin-n/2 rep'n
     xx=Jplus(n)
