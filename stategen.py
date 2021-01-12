@@ -258,14 +258,14 @@ def JXm_north(n):
     return Jxm
 
 def JYm2_north(n):
-    #This is (1j)*JYm
+    #This is (1j)*JYm_north
     xx=Jplus_north(n)
     Jym=(1/2)*(np.array(xx)-np.transpose(np.array(xx)))
     return Jym
     
 def su2cs_north(phi,thet,n):
     invec=np.zeros(n+1)
-    invec[0]=1
+    invec[n]=1
     f=expm(np.exp(-(1j)*phi)*np.tan(thet/2)*Jplus_north(n))@np.transpose(invec)
     f=f/np.sqrt(np.abs(np.dot(np.conj(f),f)))
     return f
