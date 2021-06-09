@@ -155,6 +155,28 @@ def dispsq(ener):
     ms=ms/np.linalg.norm(ms)
     return ms
 
+def beamsplit_cs(z1,z2,N):
+    vv1=sg.cohrec(z1**2,cutoff)
+    vv2=sg.cohrec(z2**2,cutoff)
+    #Need np.complex128 data type since fock_gradients.beamsplitter is given as such
+    vv1=np.array(vv1,dtype=np.complex128)
+    vv2=np.array(vv2,dtype=np.complex128)
+    bb=np.zeros((cutoff,cutoff),dtype=np.complex128)
+    #Eq.(78) of "Fast optimization..."
+    for j in range(cutoff):
+        for k in range(cutoff):
+            for l in range(cutoff):
+                for s in range(cutoff):
+                    bb[j][k]=bb[j][k]+(ccc[j][k][l][s]*vv1[l]*vv2[s])
+## A sum over l and s is not necessary due to number conservation.
+## See (77) of "Fast optimization..."
+#         low=np.max([1+j+k-cutoff,0])
+#         high=np.min([j+k,cutoff-1])+1
+#         for r in range(low,high,1):
+#             bb[j][k]+=ccc[j][k][r][j+k-r]*vv1[r]*vv2[j+k-r]
+    #Return to tensor product form
+    rr=np.reshape(bb,(cutoff**2))
+    return rr
 
 #Correct direct specification of superposition of maximally distant isoenergetic Gaussian states
 def maxsupstate_corr(ener):
