@@ -100,7 +100,7 @@ def coh(ener):
 def cohrec(ener,cutoff):
     vv=np.zeros(cutoff)
     vv[0]=1
-    for j in range(cutoff):
+    for j in range(cutoff-1):
         vv[j+1]=np.sqrt(ener)*(1/np.sqrt(j+1))*vv[j]
     st=np.exp(-(1/2)*ener)*vv
     return st
