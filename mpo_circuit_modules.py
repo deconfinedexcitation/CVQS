@@ -1,5 +1,4 @@
 import numpy as np
-from tensor_network_functions import*
 from scipy.linalg import expm, sinm, cosm
 from numpy import linalg as LA
 
