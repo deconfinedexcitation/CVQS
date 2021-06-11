@@ -229,3 +229,21 @@ def ising_int_dyn(gamma,n):
     Q2=np.array([[I],[Sz]])
     driv=[Q1]+([Q]*(n-2))+[Q2]
     return driv
+    
+def grovrefl(N):
+#Reflection about \ket{0} in Grover's algorithm
+    Q1 =np.array([[I, (1/(2**N))*Pz   ]])
+    Q=np.array([[I,  Z  ],
+             [Z  , (1/(2**N))*Pz]])
+    Q2=np.array([[I],[-(1/(2**N))*Pz]])
+    refl=[Q1]+([Q]*(np.int(N)-2))+[Q2]
+    return refl
+
+#Projector onto (ground subspace \oplus single excitation subspace) of ferromagnetic quantum Ising
+def projsing(N):
+    Q1 =np.array([[Po, I   ]])
+    Q=np.array([[Pz,  Z  ],
+             [Po  , Pz]])
+    Q2=np.array([[Pz],[Po]])
+    meas=[Q1]+([Q]*(np.int(N)-2))+[Q2]
+    return meas
