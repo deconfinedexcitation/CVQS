@@ -1,4 +1,4 @@
-# Total variation distance
+# Total variation distance for photon number detection data
 import numpy as np
 from sympy import *
 import pandas as pd
@@ -9,6 +9,7 @@ from scipy import linalg
 from collections import Counter
 
 def tvdistance(id_res,bs_res,shots,n_modes):
+    from collections import Counter
     ## Get the counts for each Fock state in the measurement 
     #bitstrings_id = [tuple(i) for i in id_res.samples]
     bitstrings_id = [tuple(i) for i in id_res]
