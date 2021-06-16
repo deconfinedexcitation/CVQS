@@ -1,5 +1,7 @@
 # Total variation distance
 
+from collections import Counter
+
 def tvdistance(id_res,bs_res,shots,n_modes):
     ## Get the counts for each Fock state in the measurement 
     #bitstrings_id = [tuple(i) for i in id_res.samples]
