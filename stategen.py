@@ -248,6 +248,13 @@ def su2cs(phi,thet,n):
     f=expm(np.exp(-(1j)*phi)*np.tan(thet/2)*Jminus(n))@np.transpose(invec)
     f=f/np.sqrt(np.abs(np.dot(np.conj(f),f)))
     return f
+
+def su2cs_plus(x,n):
+    invec=np.zeros(n+1)
+    invec[n]=1
+    f=expm(x*Jplus(n))@invec
+    f=f/np.sqrt(np.abs(np.dot(np.conj(f),f)))
+    return f
     
 # SU(2) coherent states. Uses stereographic projection from north pole.
 # o.n.b. |k,N-k> for k=0,1,\ldots ,N
