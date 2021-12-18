@@ -259,21 +259,21 @@ def su2cs_plus(x,n):
 #Dense observables
 
 def JZdense(n):
-    Z=2*JZm(1)
+    Z=JZm(1)
     jzfull=np.kron(Z,np.identity(2**(n-1)))
     for j in range(1,n-1):
         jzfull=jzfull+np.kron(np.kron(np.identity(2**(j)),Z),np.identity(2**(n-1-j)))
     jzfull=jzfull+np.kron(np.identity(2**(n-1)),Z)
     return jzfull
 def JXdense(n):
-    Z=2*JXm(1)
+    Z=JXm(1)
     jzfull=np.kron(Z,np.identity(2**(n-1)))
     for j in range(1,n-1):
         jzfull=jzfull+np.kron(np.kron(np.identity(2**(j)),Z),np.identity(2**(n-1-j)))
     jzfull=jzfull+np.kron(np.identity(2**(n-1)),Z)
     return jzfull
 def JYdense(n):
-    Z=2*JYm(1)
+    Z=JYm(1)
     jzfull=np.kron(Z,np.identity(2**(n-1)))
     for j in range(1,n-1):
         jzfull=jzfull+np.kron(np.kron(np.identity(2**(j)),Z),np.identity(2**(n-1-j)))
