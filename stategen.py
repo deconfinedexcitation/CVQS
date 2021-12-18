@@ -256,6 +256,30 @@ def su2cs_plus(x,n):
     f=f/np.sqrt(np.abs(np.dot(np.conj(f),f)))
     return f
     
+#Dense observables
+
+def JZdense(n):
+    Z=2*JZm(1)
+    jzfull=np.kron(Z,np.identity(2**(n-1)))
+    for j in range(1,n-1):
+        jzfull=jzfull+np.kron(np.kron(np.identity(2**(j)),Z),np.identity(2**(n-1-j)))
+    jzfull=jzfull+np.kron(np.identity(2**(n-1)),Z)
+    return jzfull
+def JXdense(n):
+    Z=2*JXm(1)
+    jzfull=np.kron(Z,np.identity(2**(n-1)))
+    for j in range(1,n-1):
+        jzfull=jzfull+np.kron(np.kron(np.identity(2**(j)),Z),np.identity(2**(n-1-j)))
+    jzfull=jzfull+np.kron(np.identity(2**(n-1)),Z)
+    return jzfull
+def JYdense(n):
+    Z=2*JYm(1)
+    jzfull=np.kron(Z,np.identity(2**(n-1)))
+    for j in range(1,n-1):
+        jzfull=jzfull+np.kron(np.kron(np.identity(2**(j)),Z),np.identity(2**(n-1-j)))
+    jzfull=jzfull+np.kron(np.identity(2**(n-1)),Z)
+    return jzfull
+    
 # SU(2) coherent states. Uses stereographic projection from north pole.
 # o.n.b. |k,N-k> for k=0,1,\ldots ,N
 
