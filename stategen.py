@@ -322,3 +322,53 @@ def su2cs_north(phi,thet,n):
     f=expm(np.exp(-(1j)*phi)*np.tan(thet/2)*Jplus_north(n))@np.transpose(invec)
     f=f/np.sqrt(np.abs(np.dot(np.conj(f),f)))
     return f
+    
+## Sparse implementations of spin matrices
+def jx(n):
+    X=JXm(1)
+    X=csr_matrix(X)
+    mats=[]
+    for j in range(n):
+        mats.append(sparse.kron(sparse.kron(sparse.identity(2**j),X),sparse.identity(2**((n-1)-j))))
+    return sum(mats)
+
+def jz(n):
+    Z=JZm(1)
+    Z=csr_matrix(Z)
+    mats=[]
+    for j in range(n):
+        mats.append(sparse.kron(sparse.kron(sparse.identity(2**j),Z),sparse.identity(2**((n-1)-j))))
+    return sum(mats)
+
+def jy(n):
+    X=JYm(1)
+    X=csr_matrix(X)
+    mats=[]
+    for j in range(n):
+        mats.append(sparse.kron(sparse.kron(sparse.identity(2**j),X),sparse.identity(2**((n-1)-j))))
+    return sum(mats)
+
+def jp(n):
+    aa=jx(n)
+    bb=jy(n)
+    return (aa+((1j)*bb))
+    
+### Sparse implementation of range K one-axis twisting generator
+def hamtk(n,k):
+    Z=2*JZm(1)
+    Z=csr_matrix(Z)
+    #Local Z
+    mats=[]
+    for j in range(n):
+        mats.append(sparse.kron(sparse.kron(sparse.identity(2**j),Z),sparse.identity(2**((n-1)-j))))
+    
+    
+    ## Range k ZZ interaction
+    ggg=list(np.zeros(2**n))
+    ham=diags(ggg,0)
+    for i in range(n):
+        for l in range(1,k+1):
+            ham+= mats[i]@mats[np.mod(i+l,n)]
+            ham+= mats[i]@mats[np.mod(i-l,n)]
+    return (1/4)*ham
+
