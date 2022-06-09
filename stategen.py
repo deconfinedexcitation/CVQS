@@ -246,7 +246,7 @@ def su2cs(phi,thet,n):
     invec=np.zeros(n+1)
     invec[0]=1
     f=expm(np.exp(-(1j)*phi)*np.tan(thet/2)*Jminus(n))@np.transpose(invec)
-    f=f/np.sqrt(np.abs(f)**2)
+    f=f/np.sqrt(np.sum(np.abs(f)**2))
     return f
 
 def su2cs_plus(x,n):
