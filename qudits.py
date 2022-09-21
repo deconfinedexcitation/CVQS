@@ -11,6 +11,26 @@ from scipy.optimize import curve_fit
 import matplotlib as mpl
 from matplotlib import pyplot as plt
 
+##Qubit gates
+
+def qubgate(xx):
+    #Use xx[0] the rotation angle in -np.pi,np.pi
+    #Use xx[1] the polar angle in 0,np.pi
+    #Use xx[2] the azimuth in -np.pi,np.pi
+    jxop=sg.JXm(1)
+    jyop=sg.JYm(1)
+    jzop=sg.JZm(1)
+    ff=expm(-(1j)*xx[0]*((np.cos(xx[1])*jzop)+(np.sin(xx[1])*(np.cos(xx[2])*jxop + np.sin(xx[2])*jyop))))
+    return ff
+def zyz(xx):
+    #ZYZ Euler angle decomposition for e^{-i\theta n\cdot J}
+    #for e^{-i\theta n\cdot J} specified in qubgate
+    jxop=sg.JXm(1)
+    jyop=sg.JYm(1)
+    jzop=sg.JZm(1)
+    hh1=expm(-(1j)*alpha(xx)*jzop)@expm(-(1j)*beta(xx)*jyop)@expm(-(1j)*gamma(xx)*jzop)
+    return hh1
+
 ##Gates for qudit quantum computation
 ##See Sanders ``Qudits and high-dimensional...''
 
