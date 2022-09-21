@@ -23,6 +23,17 @@ def qubgate(xx):
     jzop=JZm(1)
     ff=expm(-(1j)*xx[0]*((np.cos(xx[1])*jzop)+(np.sin(xx[1])*(np.cos(xx[2])*jxop + np.sin(xx[2])*jyop))))
     return ff
+
+## C XXXI p.19; also Physics Problems Collection
+def alpha(xx):
+    return np.arctan(np.cos(xx[1])*np.tan(xx[0]/2))-np.arctan(1/np.tan(xx[2]))
+def beta(xx):
+    aa=(np.sin(xx[0]/2)**2)*(np.sin(xx[1])**2)
+    bb=(np.cos(xx[0]/2)**2)+((np.sin(xx[0]/2)**2)*(np.cos(xx[1])**2))
+    return 2*np.arctan(np.sqrt(aa/bb))
+def gamma(xx):
+    return np.arctan(np.cos(xx[1])*np.tan(xx[0]/2))+np.arctan(1/np.tan(xx[2]))    
+    
 def zyz(xx):
     #ZYZ Euler angle decomposition for e^{-i\theta n\cdot J}
     #for e^{-i\theta n\cdot J} specified in qubgate
