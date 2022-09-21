@@ -10,7 +10,7 @@ from scipy.sparse import csr_matrix,coo_matrix
 from scipy.optimize import curve_fit
 import matplotlib as mpl
 from matplotlib import pyplot as plt
-from stategen import *
+from CVQS/stategen import *
 
 ##Qubit gates
 
