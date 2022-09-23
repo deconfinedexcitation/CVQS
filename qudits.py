@@ -26,13 +26,16 @@ def qubgate(xx):
 
 ## C XXXI p.19; also Physics Problems Collection
 def alpha(xx):
-    return np.arctan(np.cos(xx[1])*np.tan(xx[0]/2))-np.arctan(1/np.tan(xx[2]))
+    return np.arctan(np.cos(xx[1])*np.tan(xx[0]/2))-((np.pi/2)-xx[2])
 def beta(xx):
     aa=(np.sin(xx[0]/2)**2)*(np.sin(xx[1])**2)
     bb=(np.cos(xx[0]/2)**2)+((np.sin(xx[0]/2)**2)*(np.cos(xx[1])**2))
-    return 2*np.arctan(np.sqrt(aa/bb))
+    if xx[0]>=0:
+        return 2*np.arctan(np.sqrt(aa/bb))
+    else:
+        return -2*np.arctan(np.sqrt(aa/bb))
 def gamma(xx):
-    return np.arctan(np.cos(xx[1])*np.tan(xx[0]/2))+np.arctan(1/np.tan(xx[2]))    
+    return np.arctan(np.cos(xx[1])*np.tan(xx[0]/2))+(np.pi/2)-xx[2]   
     
 def zyz(xx):
     #ZYZ Euler angle decomposition for e^{-i\theta n\cdot J}
