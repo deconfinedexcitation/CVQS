@@ -1,7 +1,6 @@
 ##test
 import numpy as np
 import scipy as sp
-from numpy import linalg
 from numpy.polynomial.hermite import hermval
 from scipy.special import comb,hermite,factorial
 from scipy.linalg import expm, sinm, cosm
@@ -152,7 +151,7 @@ def dispsq(ener):
     ms=np.zeros(cut)
     ms[0]=1
     ms=sp.sparse.linalg.expm_multiply( dispham(r,cut), sp.sparse.linalg.expm_multiply(   sqham(w,cut)   ,ms) ) 
-    ms=ms/np.linalg.norm(ms)
+    ms=ms/las.norm(ms)
     return ms
 
 def beamsplit_cs(z1,z2,N):
@@ -188,7 +187,7 @@ def maxsupstate_corr(ener):
     ms=np.zeros(cut)
     ms[0]=1
     ms=sp.sparse.linalg.expm_multiply( dispham(r,cut), sp.sparse.linalg.expm_multiply(   sqham((1/2)*np.log(d),cut)   ,ms) ) + sp.sparse.linalg.expm_multiply( dispham(-r,cut), sp.sparse.linalg.expm_multiply(   sqham((1/2)*np.log(d),cut)   ,ms) )
-    ms=ms/np.linalg.norm(ms)
+    ms=ms/las.norm(ms)
     return ms
 
 
@@ -200,7 +199,7 @@ def evencat(ener):
     ms=np.zeros(cut)
     ms[0]=1
     ms=sp.sparse.linalg.expm_multiply(   dispham(np.sqrt(ener),cut)   ,ms) + sp.sparse.linalg.expm_multiply(   dispham(-np.sqrt(ener),cut)   ,ms)
-    ms=ms/np.linalg.norm(ms)
+    ms=ms/las.norm(ms)
     return ms
 
 
