@@ -7,7 +7,7 @@ from scipy.special import comb,hermite,factorial
 from scipy.linalg import expm, sinm, cosm
 from scipy import sparse
 from scipy.sparse import linalg as las
-from scipy.sparse import csr_matrix,coo_matrix
+from scipy.sparse import csr_matrix,coo_matrix,csc_matrix
 from scipy.optimize import curve_fit
 import matplotlib as mpl
 from matplotlib import pyplot as plt
