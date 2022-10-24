@@ -6,6 +6,7 @@ from numpy.polynomial.hermite import hermval
 from scipy.special import comb,hermite
 from scipy.special import factorial
 from scipy.linalg import expm, sinm, cosm
+from scipy import linalg as las
 from scipy import sparse
 from scipy.sparse import csr_matrix,coo_matrix
 from scipy.optimize import curve_fit
@@ -214,6 +215,7 @@ def Jplus(n):
         Jp[k][k+1]=np.sqrt((n-k)*(k+1))
     return np.array(Jp)
     
+    
 def Jminus(n):    
     return np.transpose(np.array(Jplus(n)))
     
@@ -242,12 +244,76 @@ def JYm2(n):
     Jym=(1/2)*(np.array(xx)-np.transpose(np.array(xx)))
     return Jym
     
+def Jplus_sparse(n):
+    Hrow=[]
+    Hcol=[]
+    Hdata=[]
+    for k in range(n+1):
+        for j in range(n+1):
+            if j==k+1:
+                Hrow.append(k)
+                Hcol.append(j)
+                Hdata.append(np.sqrt((n-k)*j))
+    Hrow=np.int_(np.asarray(Hrow))
+    Hcol=np.int_(np.asarray(Hcol) )
+    Hdata=np.asarray(Hdata)
+    H=coo_matrix((Hdata, (Hrow, Hcol)), shape=(n+1, n+1)).tocsr()
+    return H
+
+def Jminus_sparse(n):
+    return Jplus_sparse(n).transpose()
+    
+def JYm_sparse(n):
+    aa=Jplus_sparse(n)-Jminus_sparse(n)
+    aa=aa/(2*(1j))
+    return aa
+    
+def JZm_sparse(n):
+    Hrow=[]
+    Hcol=[]
+    Hdata=[]
+    for k in range(n+1):
+        Hrow.append(k)
+        Hcol.append(k)
+        Hdata.append((1/2)*(n-(2*k)))
+    Hrow=np.int_(np.asarray(Hrow))
+    Hcol=np.int_(np.asarray(Hcol) )
+    Hdata=np.asarray(Hdata)
+    H=coo_matrix((Hdata, (Hrow, Hcol)), shape=(n+1, n+1)).tocsr()
+    return H
+    
 def su2cs(phi,thet,n):
     invec=np.zeros(n+1)
     invec[0]=1
     f=expm(np.exp(-(1j)*phi)*np.tan(thet/2)*Jminus(n))@np.transpose(invec)
     f=f/np.sqrt(np.sum(np.abs(f)**2))
     return f
+    
+def su2cs_sparse(thet,n):
+    irow=[]
+    icol=[]
+    idata=[]
+    for k in range(n+1):
+        irow.append(k)
+        icol.append(0)
+        if k==0:
+            idata.append(1)
+        else:
+            idata.append(0)
+    irow=np.int_(np.asarray(irow))
+    icol=np.int_(np.asarray(icol) )
+    idata=np.asarray(idata)
+    invec=coo_matrix((idata, (irow, icol)), shape=(n+1,1)).tocsr()
+    
+    
+    #Split the application of the rotation into many steps
+    #to avoid calculation of a large normalization constant
+    op=las.expm(-(1j)*thet*JYm_sparse(n)/(n/10))
+    f=invec
+    for j in range(int(n/10)):
+        f=op@(f/las.norm(f))
+    g=np.array(f.todense()).transpose()[0]
+    return g
 
 def su2cs_plus(x,n):
     invec=np.zeros(n+1)
