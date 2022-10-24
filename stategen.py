@@ -3,11 +3,10 @@ import numpy as np
 import scipy as sp
 from numpy import linalg
 from numpy.polynomial.hermite import hermval
-from scipy.special import comb,hermite
-from scipy.special import factorial
+from scipy.special import comb,hermite,factorial
 from scipy.linalg import expm, sinm, cosm
-from scipy import linalg as las
 from scipy import sparse
+from scipy.sparse import linalg as las
 from scipy.sparse import csr_matrix,coo_matrix
 from scipy.optimize import curve_fit
 import matplotlib as mpl
@@ -303,7 +302,7 @@ def su2cs_sparse(thet,n):
     irow=np.int_(np.asarray(irow))
     icol=np.int_(np.asarray(icol) )
     idata=np.asarray(idata)
-    invec=coo_matrix((idata, (irow, icol)), shape=(n+1,1)).tocsr()
+    invec=coo_matrix((idata, (irow, icol)), shape=(n+1,1)).tocsc()
     
     
     #Split the application of the rotation into many steps
