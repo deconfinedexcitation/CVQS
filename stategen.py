@@ -310,7 +310,7 @@ def su2cs_sparse(thet,n):
     f=invec
     for j in range(int(n/10)):
         f=op@(f/las.norm(f))
-    g=np.array(f.todense()).transpose()[0]
+    g=np.array(f.transpose().todense())[0]
     return g
 
 def su2cs_plus(x,n):
