@@ -280,6 +280,23 @@ def JZm_sparse(n):
     H=coo_matrix((Hdata, (Hrow, Hcol)), shape=(n+1, n+1)).tocsr()
     return H
     
+def prodx(n):
+    ## X^{\otimes n}
+    aa=np.zeros((n+1, n+1))
+    aa=np.diag(np.ones(n+1))
+    aa=np.fliplr(aa)
+    return aa
+
+def prody(n):
+    ## Y^{\otimes n}
+    aa=np.zeros((n+1, n+1))
+    vv=[]
+    for j in range(n+1):
+        vv.append(((1j)**n)*((-1)**j))
+    aa=np.diag(vv)
+    aa=np.fliplr(aa)
+    return aa
+    
 def su2cs(phi,thet,n):
     invec=np.zeros(n+1)
     invec[0]=1
@@ -319,6 +336,81 @@ def su2cs_plus(x,n):
     f=expm(x*Jplus(n))@invec
     f=f/np.sqrt(np.abs(np.dot(np.conj(f),f)))
     return f
+    
+#Cat states, compass states, phase states, twin Fock states
+
+def phasestate_z(thet,n):
+    vv=np.zeros(n+1)
+    for j in range(n+1):
+        aa=np.zeros(n+1)
+        aa[j]=1
+        vv=vv + np.exp((1j)*((n/2)-j)*thet)*aa
+    return vv/np.sqrt(np.sum(np.abs(vv)**2))
+
+##It is better to code up cat states using rotations
+## than by taking superpositions of eigenvectors of
+## output by linalg.eig. This is because a multiplicative phase
+## of the eigenvector is not fixed.
+
+def xcat(n):
+    vv=np.zeros(n+1)
+    vv[0]=1
+    ww=np.zeros(n+1)
+    ww[n]=1
+    state=expm(-(1j)*(np.pi/2)*sg.JYm(n))@((vv+ (((-1)**n)*ww))/np.sqrt(2))
+    return state
+
+def xminuscat(n):
+    vv=np.zeros(n+1)
+    vv[0]=1
+    ww=np.zeros(n+1)
+    ww[-1]=1
+    state=expm(-(1j)*(np.pi/2)*sg.JYm(n))@((vv-(((-1)**n)*ww))/np.sqrt(2))
+    return state
+
+def ycat(n):
+    vv=np.zeros(n+1)
+    vv[0]=1
+    ww=np.zeros(n+1)
+    ww[-1]=1
+    state=expm((1j)*(np.pi/2)*sg.JXm(n))@((vv+(((-(1j))**n)*ww))/np.sqrt(2))
+    return state
+
+def yminuscat(n):
+    vv=np.zeros(n+1)
+    vv[0]=1
+    ww=np.zeros(n+1)
+    ww[-1]=1
+    state=expm((1j)*(np.pi/2)*sg.JXm(n))@((vv-(((-(1j))**n)*ww))/np.sqrt(2))
+    return state
+
+def zcat(n):
+    vv=np.zeros(n+1)
+    vv[0]=1
+    ww=np.zeros(n+1)
+    ww[-1]=1
+    state=((vv+ww)/np.sqrt(2))
+    return state
+
+
+def zminuscat(n):
+    vv=np.zeros(n+1)
+    vv[0]=1
+    ww=np.zeros(n+1)
+    ww[-1]=1
+    state=((vv-ww)/np.sqrt(2))
+    return state/np.sqrt(np.sum(np.abs(state)**2))
+
+
+def compass(n):
+    state=xcat(n)+ycat(n)+zcat(n)
+    return state/np.sqrt(np.sum(np.abs(state)**2))
+
+def twin_fock_superpos(n):
+    vv=np.zeros(n+1)
+    vv[int(n/2)]=1
+    vv=vv+ (expm(-(1j)*(np.pi/2)*sg.JYm(n))@vv) + (expm(-(1j)*(np.pi/2)*sg.JXm(n))@vv)
+    return vv/np.sqrt(np.sum(np.abs(vv)**2))
     
 #Dense observables
 
