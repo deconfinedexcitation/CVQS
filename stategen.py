@@ -357,7 +357,7 @@ def xcat(n):
     vv[0]=1
     ww=np.zeros(n+1)
     ww[n]=1
-    state=expm(-(1j)*(np.pi/2)*sg.JYm(n))@((vv+ (((-1)**n)*ww))/np.sqrt(2))
+    state=expm(-(1j)*(np.pi/2)*JYm(n))@((vv+ (((-1)**n)*ww))/np.sqrt(2))
     return state
 
 def xminuscat(n):
@@ -365,7 +365,7 @@ def xminuscat(n):
     vv[0]=1
     ww=np.zeros(n+1)
     ww[-1]=1
-    state=expm(-(1j)*(np.pi/2)*sg.JYm(n))@((vv-(((-1)**n)*ww))/np.sqrt(2))
+    state=expm(-(1j)*(np.pi/2)*JYm(n))@((vv-(((-1)**n)*ww))/np.sqrt(2))
     return state
 
 def ycat(n):
@@ -373,7 +373,7 @@ def ycat(n):
     vv[0]=1
     ww=np.zeros(n+1)
     ww[-1]=1
-    state=expm((1j)*(np.pi/2)*sg.JXm(n))@((vv+(((-(1j))**n)*ww))/np.sqrt(2))
+    state=expm((1j)*(np.pi/2)*JXm(n))@((vv+(((-(1j))**n)*ww))/np.sqrt(2))
     return state
 
 def yminuscat(n):
@@ -381,7 +381,7 @@ def yminuscat(n):
     vv[0]=1
     ww=np.zeros(n+1)
     ww[-1]=1
-    state=expm((1j)*(np.pi/2)*sg.JXm(n))@((vv-(((-(1j))**n)*ww))/np.sqrt(2))
+    state=expm((1j)*(np.pi/2)*JXm(n))@((vv-(((-(1j))**n)*ww))/np.sqrt(2))
     return state
 
 def zcat(n):
