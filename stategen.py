@@ -297,6 +297,15 @@ def prody(n):
     aa=np.fliplr(aa)
     return aa
     
+def prodz(n):
+    ## Z^{\otimes n}
+    aa=np.zeros((n+1, n+1))
+    vv=[]
+    for j in range(n+1):
+        vv.append(((-1)**n))
+    aa=np.diag(vv)
+    return aa
+    
 def su2cs(phi,thet,n):
     invec=np.zeros(n+1)
     invec[0]=1
