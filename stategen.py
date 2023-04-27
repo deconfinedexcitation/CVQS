@@ -2,7 +2,9 @@
 import numpy as np
 import scipy as sp
 from numpy.polynomial.hermite import hermval
+from numpy import linalg as LA
 from scipy.special import comb,hermite,factorial
+from sympy import *
 from scipy import linalg
 from scipy.linalg import expm, sinm, cosm
 from scipy import sparse
