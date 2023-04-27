@@ -346,6 +346,28 @@ def su2cs_plus(x,n):
     f=f/np.sqrt(np.abs(np.dot(np.conj(f),f)))
     return f
     
+## CV Gaussian states
+
+def symp(m):
+    #Symplectic matrix in Holevo ordering of canonical operators
+    ff=np.array([[0,1],[-1,0]])
+    for j in range(m-1):
+        ff=linalg.block_diag(ff,np.array([[0,1],[-1,0]]))
+    return ff
+
+def hol_to_qp(m):
+    ## (q_{1},...,q_{M},p_{1},...,p_{M})=(q_{1},p_{1},...,q_{M},p_{M})A
+    cc=np.zeros(2*m)
+    cc[0]=1
+    vvv=[np.roll(cc,j) for j in range(2*m)]
+    rrr=[]
+    for j in range(m):
+        rrr.append(vvv[2*j])
+    for j in range(m):
+        rrr.append(vvv[(2*j)+1])
+    A=np.transpose(np.array(rrr))
+    return A
+    
 #Cat states, compass states, phase states, twin Fock states
 
 def phasestate_z(thet,n):
