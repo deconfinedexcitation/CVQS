@@ -135,8 +135,9 @@ def cohcl(ener,N):
 
 #Squeezed state
 
-def sq(ener):
-    cut=np.ceil(10*(ener))
+def sq(ener,cutoff):
+    #cut=np.ceil(10*(ener))
+    cut=cutoff
     cut=np.int(cut)
     ms=np.zeros(cut)
     ms[0]=1
