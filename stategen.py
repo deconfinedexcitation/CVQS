@@ -143,6 +143,8 @@ def sq(ener,cutoff):
     ms[0]=1
     ms=sp.sparse.linalg.expm_multiply(  sqham(np.arcsinh(np.sqrt(ener)),cut)   ,ms)
     return ms
+    
+
 
 #Displaced squeezed state with energy distribution as in ``Maximal trace distance between isoenergetic...'' and ``Linear bosonic channels defined by...''
 
