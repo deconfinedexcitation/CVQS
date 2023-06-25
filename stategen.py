@@ -29,7 +29,7 @@ from matplotlib import pyplot as plt
 
 
 
-#Generator of real displacements
+#Generator of displacements
 
 def dispham(alph,cut):
     Hrow=[]
@@ -45,7 +45,7 @@ def dispham(alph,cut):
     Hcol=np.int_(np.asarray(Hcol) )
     Hdata=np.asarray(Hdata)
     H=coo_matrix((Hdata, (Hrow, Hcol)), shape=(cut, cut)).tocsr()
-    H=H-np.transpose(H)
+    H=H-np.conj(np.transpose(H))
     return H
 
 #Generator of real squeezing
