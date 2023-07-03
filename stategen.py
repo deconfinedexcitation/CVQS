@@ -91,7 +91,7 @@ def kerr(time,kappa, cutoff, dtype=np.complex128):
 #Coherent state from generator
 def coh(ener):
     cut=np.ceil(10*(ener))
-    cut=np.int(cut)
+    cut=int(cut)
     ms=np.zeros(cut)
     ms[0]=1
     ms=sp.sparse.linalg.expm_multiply(   dispham(np.sqrt(ener),cut)   ,ms)
@@ -138,7 +138,7 @@ def cohcl(ener,N):
 def sq(ener,cutoff):
     #cut=np.ceil(10*(ener))
     cut=cutoff
-    cut=np.int(cut)
+    cut=int(cut)
     ms=np.zeros(cut)
     ms[0]=1
     ms=sp.sparse.linalg.expm_multiply(  sqham(np.arcsinh(np.sqrt(ener)),cut)   ,ms)
@@ -150,7 +150,7 @@ def sq(ener,cutoff):
 
 def dispsq(ener):
     cut=np.ceil(10*(ener))
-    cut=np.int(cut)
+    cut=int(cut)
     d=(2*ener)+1
     r=np.sqrt(((ener**2)+ener)/((2*ener)+1))
     w=(1/2)*np.log((2*ener)+1)
@@ -186,7 +186,7 @@ def beamsplit_cs(z1,z2,N):
 #Correct direct specification of superposition of maximally distant isoenergetic Gaussian states
 def maxsupstate_corr(ener):
     cut=np.ceil(10*(ener))
-    cut=np.int(cut)
+    cut=int(cut)
     d=(2*ener)+1
     r=np.sqrt(((ener**2)+ener)/((2*ener)+1))
     w=(1/2)*np.log((2*ener)+1)
@@ -201,7 +201,7 @@ def maxsupstate_corr(ener):
 #Even cat
 def evencat(ener):
     cut=np.ceil(10*(ener))
-    cut=np.int(cut)
+    cut=int(cut)
     ms=np.zeros(cut)
     ms[0]=1
     ms=sp.sparse.linalg.expm_multiply(   dispham(np.sqrt(ener),cut)   ,ms) + sp.sparse.linalg.expm_multiply(   dispham(-np.sqrt(ener),cut)   ,ms)
@@ -215,7 +215,7 @@ def evencat(ener):
 
 def Jplus(n):
     Jp=np.zeros((n+1,n+1))
-    for k in range(0, np.int(n)):
+    for k in range(0, int(n)):
         Jp[k][k+1]=np.sqrt((n-k)*(k+1))
     return np.array(Jp)
     
@@ -225,7 +225,7 @@ def Jminus(n):
     
 def JZm(n):
     Jz=np.zeros((n+1,n+1))
-    for k in range(np.int(n)+1):
+    for k in range(int(n)+1):
         Jz[k][k]=(1/2)*(n-(2*k))
     return np.array(Jz)
     
@@ -478,7 +478,7 @@ def JYdense(n):
 
 def Jplus_north(n):
     Jp=np.zeros((n+1,n+1))
-    for k in range(0, np.int(n)):
+    for k in range(0, int(n)):
         Jp[k+1][k]=np.sqrt((n-k)*(k+1))
     return np.array(Jp)
     
@@ -487,7 +487,7 @@ def Jminus_north(n):
 
 def Jz_north(n):
     Jz=np.zeros((n+1,n+1))
-    for k in range(np.int(n)+1):
+    for k in range(int(n)+1):
         Jz[k][k]=(1/2)*((2*k)-n)
     return np.array(Jz)
     
