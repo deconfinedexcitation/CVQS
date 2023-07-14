@@ -66,6 +66,11 @@ def Z(z,d):
     for j in range(d):
         gg.append(np.exp((1j)*2*np.pi*z*j/d))
     return np.diag(gg)
+    
+def cyclicshift(d):
+    aa=np.diag(np.ones(d-1),-1)
+    aa[0,-1]=1
+    return aa
 
 def X(x,d):
     vv=np.zeros((d,d))
