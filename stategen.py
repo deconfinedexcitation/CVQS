@@ -267,6 +267,11 @@ def Jplus_sparse(n):
 def Jminus_sparse(n):
     return Jplus_sparse(n).transpose()
     
+def JXm_sparse(n):
+    aa=Jplus_sparse(n)+Jminus_sparse(n)
+    aa=aa/2
+    return aa
+    
 def JYm_sparse(n):
     aa=Jplus_sparse(n)-Jminus_sparse(n)
     aa=aa/(2*(1j))
