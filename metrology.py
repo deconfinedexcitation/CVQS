@@ -38,12 +38,21 @@ def fastqfiloss_fullrank(ang,state,n):
     delrhoy=delrho1y+delrho2y
     
     
-    fishy=[]
-    for i in range(size):
-        for j in range(size):
+    fishy=0
+    #Instead of using the rotated vectors, just multiply
+    #delrhoy by sparse matrices, then access matrix elements.
+    aaa=las.expm_multiply((1j)*ang*yy,las.expm_multiply((1j)*ang*yy,delrhoy).conj().T)
+    for i in range(size+1):
+        #Diagonal contribution
+        ffy=(1/(2*specsy[i]))
+        ggy=aaa[i,i]
+        fishy+= ffy*(np.abs(ggy)**2)
+    for i in range(size+1):
+        for j in range(i+1,size+1):
+            #Off-diagonal contributions
             ffy=(1/(specsy[i]+specsy[j]))
-            ggy=np.conj(rotveclist[i])@delrhoy@rotveclist[j]
-            fishy.append(ffy*(np.abs(ggy)**2))
-    ffy=2*np.sum(fishy)
+            ggy=aaa[i,j]
+            fishy+= 2*ffy*(np.abs(ggy)**2)
+            ffy=2*fishy
     
     return (1/n)*np.real(ffy)
