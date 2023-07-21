@@ -29,12 +29,12 @@ def fastqfiloss_fullrank(ang,state,n):
     for j in range(len(specsy)):
         vv=np.zeros(size).astype(np.complex128)
         vv[j]=1
-        rotveclist.append(expm_multiply(-(1j)*ang*yy,vv))
+        rotveclist.append(las.expm_multiply(-(1j)*ang*yy,vv))
     
     
     
-    delrho1y=-(1j)*( yy@expm_multiply( -(1j)*ang*yy, expm_multiply(-(1j)*ang*yy,rr).conj().T))
-    delrho2y=(1j)*expm_multiply( -(1j)*ang*yy, expm_multiply(-(1j)*ang*yy,rr).conj().T)@yy
+    delrho1y=-(1j)*( yy@las.expm_multiply( -(1j)*ang*yy, las.expm_multiply(-(1j)*ang*yy,rr).conj().T))
+    delrho2y=(1j)*las.expm_multiply( -(1j)*ang*yy, las.expm_multiply(-(1j)*ang*yy,rr).conj().T)@yy
     delrhoy=delrho1y+delrho2y
     
     
