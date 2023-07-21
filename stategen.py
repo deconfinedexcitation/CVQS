@@ -94,7 +94,7 @@ def coh(ener):
     cut=int(cut)
     ms=np.zeros(cut)
     ms[0]=1
-    ms=sp.sparse.linalg.expm_multiply(   dispham(np.sqrt(ener),cut)   ,ms)
+    ms=las.expm_multiply(   dispham(np.sqrt(ener),cut)   ,ms)
     return ms
 
 #Coherent state by recursion
@@ -128,7 +128,7 @@ def cohcl(ener,N):
     H=coo_matrix((Hdata, (Hrow, Hcol)), shape=(N+1, N+1)).tocsr()
     b=np.zeros(N+1)
     b[0]=1
-    rr=sp.sparse.linalg.expm_multiply(   H   ,b)
+    rr=las.expm_multiply(   H   ,b)
     #rr=rr/np.max(np.abs(rr))
     #rr=rr/(np.sqrt((np.sum(np.square(rr)))))
     return rr
@@ -141,7 +141,7 @@ def sq(ener,cutoff):
     cut=int(cut)
     ms=np.zeros(cut)
     ms[0]=1
-    ms=sp.sparse.linalg.expm_multiply(  sqham(np.arcsinh(np.sqrt(ener)),cut)   ,ms)
+    ms=las.expm_multiply(  sqham(np.arcsinh(np.sqrt(ener)),cut)   ,ms)
     return ms
     
 
@@ -156,7 +156,7 @@ def dispsq(ener):
     w=(1/2)*np.log((2*ener)+1)
     ms=np.zeros(cut)
     ms[0]=1
-    ms=sp.sparse.linalg.expm_multiply( dispham(r,cut), sp.sparse.linalg.expm_multiply(   sqham(w,cut)   ,ms) ) 
+    ms=las.expm_multiply( dispham(r,cut), las.expm_multiply(   sqham(w,cut)   ,ms) ) 
     ms=ms/np.linalg.norm(ms)
     return ms
 
@@ -192,7 +192,7 @@ def maxsupstate_corr(ener):
     w=(1/2)*np.log((2*ener)+1)
     ms=np.zeros(cut)
     ms[0]=1
-    ms=sp.sparse.linalg.expm_multiply( dispham(r,cut), sp.sparse.linalg.expm_multiply(   sqham((1/2)*np.log(d),cut)   ,ms) ) + sp.sparse.linalg.expm_multiply( dispham(-r,cut), sp.sparse.linalg.expm_multiply(   sqham((1/2)*np.log(d),cut)   ,ms) )
+    ms=las.expm_multiply( dispham(r,cut), las.expm_multiply(   sqham((1/2)*np.log(d),cut)   ,ms) ) + las.expm_multiply( dispham(-r,cut), las.expm_multiply(   sqham((1/2)*np.log(d),cut)   ,ms) )
     ms=ms/np.linalg.norm(ms)
     return ms
 
@@ -204,7 +204,7 @@ def evencat(ener):
     cut=int(cut)
     ms=np.zeros(cut)
     ms[0]=1
-    ms=sp.sparse.linalg.expm_multiply(   dispham(np.sqrt(ener),cut)   ,ms) + sp.sparse.linalg.expm_multiply(   dispham(-np.sqrt(ener),cut)   ,ms)
+    ms=las.expm_multiply(   dispham(np.sqrt(ener),cut)   ,ms) + las.expm_multiply(   dispham(-np.sqrt(ener),cut)   ,ms)
     ms=ms/np.linalg.norm(ms)
     return ms
 
