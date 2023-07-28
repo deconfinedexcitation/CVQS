@@ -33,8 +33,8 @@ def fastqfiloss_fullrank(ang,state,n):
     
     
     
-    delrho1y=-(1j)*( yy@las.expm_multiply( -(1j)*ang*yy, las.expm_multiply(-(1j)*ang*yy,rr).conj().T))
-    delrho2y=(1j)*las.expm_multiply( -(1j)*ang*yy, las.expm_multiply(-(1j)*ang*yy,rr).conj().T)@yy
+    delrho1y=-(1j)*( yy@las.expm_multiply( -(1j)*ang*yy, las.expm_multiply(-(1j)*ang*yy,dd).conj().T))
+    delrho2y=(1j)*las.expm_multiply( -(1j)*ang*yy, las.expm_multiply(-(1j)*ang*yy,dd).conj().T)@yy
     delrhoy=delrho1y+delrho2y
     
     
@@ -55,4 +55,4 @@ def fastqfiloss_fullrank(ang,state,n):
             fishy+= 2*ffy*(np.abs(ggy)**2)
             ffy=2*fishy
     
-    return (1/n)*np.real(ffy)
+    return (1/n)*np.real(fishy)
