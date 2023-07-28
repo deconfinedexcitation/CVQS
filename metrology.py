@@ -15,19 +15,18 @@ from scipy.optimize import curve_fit
 import matplotlib as mpl
 from matplotlib import pyplot as plt
 
-def fastqfiloss_fullrank(ang,state,n):
-    #Compute spectral formula for QFI of interferometer using a full rank state approximation to a diagonal state
-    #state should be n+1 x n+1 diagonal matrix
-    rr=state
-    size=n+1
+def fastqfiloss_fullrank(ang,n,k):
+    #Compute noisy case with usual formula for QFI but using a full rank state
+    rr=dicketrace(n,k,int(n/2))
+    size=n-k
     small=(10**-10)
-    dd=((1-small)*rr)+ (small*(1/size)*np.eye(size))
+    dd=((1-small)*rr)+ (small*(1/(n-k+1))*np.eye(int(n-k+1)))
     specsy=np.diag(dd)
     #Rotate the eigenvectors
-    yy=sg.JYm_sparse(size-1)
+    yy=sg.JYm_sparse(size)
     rotveclist=[]
     for j in range(len(specsy)):
-        vv=np.zeros(size).astype(np.complex128)
+        vv=np.zeros(size+1).astype(np.complex128)
         vv[j]=1
         rotveclist.append(las.expm_multiply(-(1j)*ang*yy,vv))
     
@@ -46,13 +45,12 @@ def fastqfiloss_fullrank(ang,state,n):
         #Diagonal contribution
         ffy=(1/(2*specsy[i]))
         ggy=aaa[i,i]
-        fishy+= ffy*(np.abs(ggy)**2)
+        fishy+= 2*ffy*(np.abs(ggy)**2)
     for i in range(size+1):
         for j in range(i+1,size+1):
             #Off-diagonal contributions
             ffy=(1/(specsy[i]+specsy[j]))
             ggy=aaa[i,j]
-            fishy+= 2*ffy*(np.abs(ggy)**2)
-            ffy=2*fishy
+            fishy+= 2*2*ffy*(np.abs(ggy)**2)
     
     return (1/n)*np.real(fishy)
