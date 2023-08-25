@@ -247,3 +247,76 @@ def projsing(N):
     Q2=np.array([[Pz],[Po]])
     meas=[Q1]+([Q]*(np.int(N)-2))+[Q2]
     return meas
+
+#Sparse quantum circuits on qubits
+
+def zrot(theta):
+    return csc_array(expm(-(1j)*theta*2*sg.JZm(1)))
+def xrot(theta):
+    return csc_array(expm(-(1j)*theta*2*sg.JXm(1)))
+def yrot(theta):
+    return csc_array(expm(-(1j)*theta*2*sg.JYm(1)))
+def sparsehada():
+    return csc_array((1/np.sqrt(2))*np.array([[1,1],[1,-1]]))
+def crotsparse(ang,phi,theta):
+    gg=(np.cos(theta)*2*sg.JZm(1))+(np.sin(theta)*np.cos(phi)*2*sg.JXm(1))+(np.sin(theta)*np.sin(phi)*2*sg.JYm(1))
+    pzero=np.array([[1,0],[0,0]])
+    pone=np.array([[0,0],[0,1]])
+    return csc_array(kron(pzero,np.eye(2)) + kron(pone,expm(-(1j)*ang*gg)))
+def czsparse():
+    pzero=np.array([[1,0],[0,0]])
+    pone=np.array([[0,0],[0,1]])
+    return csc_array(kron(pzero,np.eye(2)) + kron(pone,2*sg.JZm(1)))
+def cxsparse():
+    pzero=np.array([[1,0],[0,0]])
+    pone=np.array([[0,0],[0,1]])
+    return csc_array(kron(pzero,np.eye(2)) + kron(pone,2*sg.JXm(1)))
+
+def applyonequbit(gate,a,n):
+    #Gate should be sparse 2x2 unitary
+    if a==1:
+        gg=kron(gate,identity(2**(n-1)),format="csc")
+    if a==n:
+        gg=kron(identity(2**(n-1)),gate,format="csc")
+    else:
+        gg=kron(kron(identity(2**(a-1)),gate,format="csc"),identity(2**(n-a)),format="csc")
+    return gg
+
+
+def sparseswap(a,b,n):
+    Sx=(1j)*xrot(np.pi/2)
+    Sy=(1j)*yrot(np.pi/2)
+    Sz=(1j)*zrot(np.pi/2)
+    #b must be greater than a
+    if (a==1):
+        ss=kron( kron(kron(Sx,identity(2**(b-2)),format="csc"),Sx,format="csc"),identity(2**(n-b)),format="csc" )
+        tt=kron( kron(kron(Sy,identity(2**(b-2)),format="csc"),Sy,format="csc"),identity(2**(n-b)),format="csc" )
+        uu=kron( kron(kron(Sz,identity(2**(b-2)),format="csc"),Sz,format="csc"),identity(2**(n-b)),format="csc" )
+    if (b==n):
+        ss=kron(identity(2**(a-1)),  kron(Sx,kron( identity(2**(n-a-1)),Sx,format="csc" ),format="csc"),format="csc" )
+        tt=kron(identity(2**(a-1)),  kron(Sy,kron( identity(2**(n-a-1)),Sy,format="csc" ),format="csc"),format="csc" )
+        uu=kron(identity(2**(a-1)),  kron(Sz,kron( identity(2**(n-a-1)),Sz,format="csc" ),format="csc"),format="csc" )
+    if (a!=1) and (b!=n):
+        ss=kron(kron(identity(2**(a-1)),  kron(Sx,kron( identity(2**(b-a-1)),Sx,format="csc" ),format="csc"),format="csc" ),identity(2**(n-b)),format="csc" )
+        tt=kron(kron(identity(2**(a-1)),  kron(Sy,kron( identity(2**(b-a-1)),Sy,format="csc" ),format="csc"),format="csc" ),identity(2**(n-b)),format="csc" )
+        uu=kron(kron(identity(2**(a-1)),  kron(Sz,kron( identity(2**(b-a-1)),Sz,format="csc" ),format="csc"),format="csc" ),identity(2**(n-b)),format="csc" )
+    sw=np.real(np.exp((1j)*(np.pi/4))*las.expm(-(1j)*(np.pi/4)*(ss+tt+uu)))
+    return sw    
+
+
+def applytwoqubit(gate,a,b,n):
+    fff="csc"
+    if a<b:
+        if a==1 and b==2:
+            return kron(gate,np.identity(2**(n-2)),format=fff)
+        elif a==1 and b!=2:
+            return (sparseswap(2,b,n)@kron(gate,identity(2**(n-2)),format=fff)@sparseswap(2,b,n))
+        else:
+            return sparseswap(1,a,n)@(sparseswap(2,b,n)@kron(gate,identity(2**(n-2)),format=fff)@sparseswap(2,b,n))@sparseswap(1,a,n)
+    if a>b:
+        if a==2 and b==1:
+            return sparseswap(1,2,n)@kron(gate,identity(2**(n-2)),format=fff)@sparseswap(1,2,n)
+        elif a!=2 and b==1:
+            return (sparseswap(2,a,n)@sparseswap(1,2,n)@kron(gate,identity(2**(n-2)),format=fff)@sparseswap(1,2,n)@sparseswap(2,a,n))
+        else:
+            return sparseswap(1,b,n)@(sparseswap(2,a,n)@sparseswap(1,2,n)@kron(gate,identity(2**(n-2)),format=fff)@sparseswap(1,2,n)@sparseswap(2,a,n))@sparseswap(1,b,n)
