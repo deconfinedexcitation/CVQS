@@ -271,6 +271,11 @@ def cxsparse():
     pzero=np.array([[1,0],[0,0]])
     pone=np.array([[0,0],[0,1]])
     return csc_array(kron(pzero,np.eye(2)) + kron(pone,2*sg.JXm(1)))
+def cysparse():
+    pzero=np.array([[1,0],[0,0]])
+    pone=np.array([[0,0],[0,1]])
+    return csc_array(kron(pzero,np.eye(2)) + kron(pone,2*sg.JYm(1)))
+
 
 def applyonequbit(gate,a,n):
     #Gate should be sparse 2x2 unitary
