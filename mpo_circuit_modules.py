@@ -7,6 +7,7 @@ from scipy.sparse import csc_array,coo_matrix, csr_matrix, csc_matrix, find,iden
 from scipy.sparse import linalg as las
 from scipy import linalg
 from scipy.special import factorial,comb,gamma,factorial,gammaln
+from CVQS.stategen import *
 
 ## Local operators
 I = np.identity(2)
@@ -256,30 +257,30 @@ def projsing(N):
 #Sparse quantum circuits on qubits
 
 def zrot(theta):
-    return csc_array(expm(-(1j)*theta*2*sg.JZm(1)))
+    return csc_array(expm(-(1j)*theta*2*JZm(1)))
 def xrot(theta):
-    return csc_array(expm(-(1j)*theta*2*sg.JXm(1)))
+    return csc_array(expm(-(1j)*theta*2*JXm(1)))
 def yrot(theta):
-    return csc_array(expm(-(1j)*theta*2*sg.JYm(1)))
+    return csc_array(expm(-(1j)*theta*2*JYm(1)))
 def sparsehada():
     return csc_array((1/np.sqrt(2))*np.array([[1,1],[1,-1]]))
 def crotsparse(ang,phi,theta):
-    gg=(np.cos(theta)*2*sg.JZm(1))+(np.sin(theta)*np.cos(phi)*2*sg.JXm(1))+(np.sin(theta)*np.sin(phi)*2*sg.JYm(1))
+    gg=(np.cos(theta)*2*JZm(1))+(np.sin(theta)*np.cos(phi)*2*JXm(1))+(np.sin(theta)*np.sin(phi)*2*JYm(1))
     pzero=np.array([[1,0],[0,0]])
     pone=np.array([[0,0],[0,1]])
     return csc_array(kron(pzero,np.eye(2)) + kron(pone,expm(-(1j)*ang*gg)))
 def czsparse():
     pzero=np.array([[1,0],[0,0]])
     pone=np.array([[0,0],[0,1]])
-    return csc_array(kron(pzero,np.eye(2)) + kron(pone,2*sg.JZm(1)))
+    return csc_array(kron(pzero,np.eye(2)) + kron(pone,2*JZm(1)))
 def cxsparse():
     pzero=np.array([[1,0],[0,0]])
     pone=np.array([[0,0],[0,1]])
-    return csc_array(kron(pzero,np.eye(2)) + kron(pone,2*sg.JXm(1)))
+    return csc_array(kron(pzero,np.eye(2)) + kron(pone,2*JXm(1)))
 def cysparse():
     pzero=np.array([[1,0],[0,0]])
     pone=np.array([[0,0],[0,1]])
-    return csc_array(kron(pzero,np.eye(2)) + kron(pone,2*sg.JYm(1)))
+    return csc_array(kron(pzero,np.eye(2)) + kron(pone,2*JYm(1)))
 
 
 def applyonequbit(gate,a,n):
