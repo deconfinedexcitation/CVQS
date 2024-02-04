@@ -570,3 +570,11 @@ def hamtk(n,k):
             ham+= mats[i]@mats[np.mod(i-l,n)]
     return (1/4)*ham
 
+
+def hadamardprod(a,b):
+    ll=np.shape(a)
+    hh=np.zeros(ll)
+    for i in range(ll[0]):
+        for j in range(ll[0]):
+            hh[i][j]=a[i][j]*b[i][j]
+    return hh
