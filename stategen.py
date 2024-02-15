@@ -578,3 +578,78 @@ def hadamardprod(a,b):
         for j in range(ll[0]):
             hh[i][j]=a[i][j]*b[i][j]
     return hh
+
+
+#### Hear random unitaries
+
+def haar_unitary(d):
+    #Same as scipy's implementation or
+    #Mezzadri ``How to generate...''
+    mu, sigma = 0, 1 # mean and standard deviation
+    xx = np.random.default_rng().normal(mu, sigma, (d,d))+((1j)*np.random.default_rng().normal(mu, sigma, (d,d)))
+    xx=xx/np.sqrt(2)
+    q,r=LA.qr(xx)
+    lamb=np.diag([np.diag(r)[j]/np.abs(np.diag(r)[j]) for j in range(d)])
+    return q@lamb
+
+def haar_unitary_zycz(d):
+    ##See Zyczkowski, Kus
+    mlist=[]
+    #Create E^(i,j) of Zyczkowski
+    for j in reversed(range(1,d)):
+        for i in range(j):
+            uu=np.eye(d,dtype=np.complex128)
+            ff=haar_unitary(2)
+            uu[i,i]=ff[0,0]
+            uu[i,j]=ff[0,1]
+            uu[j,i]=ff[1,0]
+            uu[j,j]=ff[1,1]
+            mlist.append(uu)
+    cc=np.eye(d,dtype=np.complex128)
+    for a in mlist:
+        cc=a@cc
+    return cc
+
+def haar_unitary_zycz_rest(d):
+    ##Random unitary such that <e_d|U|e_1>=0
+    ##This is a d^2 - 1 dimensional manifold
+    #mlist is list of all unitaries appearing in the full product
+    mlist=[]
+    for j in reversed(range(1,d)):
+        #First we construct E_{d-1} in (3.3)
+        if j==d-1:
+            #This part is special. It's for E^(1,d)
+            xx=np.eye(d,dtype=np.complex128)
+            chi=np.random.default_rng().uniform(low=0.0, high=2*np.pi)
+            xx[0,0]=np.exp((1j)*chi)
+            xx[0,j]=0
+            xx[j,0]=0
+            xx[j,j]=np.exp(-(1j)*chi)
+            mlist.append(xx)
+            #Now generate E^(2,d),...,E^(d-1,d). Nothing special, 
+            #just putting random 2x2 in the right places
+            for i in range(1,j):
+                uu=np.eye(d,dtype=np.complex128)
+                ff=haar_unitary(2)
+                uu[i,i]=ff[0,0]
+                uu[i,j]=ff[0,1]
+                uu[j,i]=ff[1,0]
+                uu[j,j]=ff[1,1]
+                mlist.append(uu)
+        else:
+            #Nothing special for E_{1},...,E_{d-2}
+            #just putting random 2x2 in the right places
+            for i in range(j):
+                uu=np.eye(d,dtype=np.complex128)
+                ff=haar_unitary(2)
+                uu[i,i]=ff[0,0]
+                uu[i,j]=ff[0,1]
+                uu[j,i]=ff[1,0]
+                uu[j,j]=ff[1,1]
+                mlist.append(uu)
+    #Multiply all the matrices
+    cc=np.eye(d,dtype=np.complex128)
+    for a in mlist:
+        cc=a@cc
+    #Final phase
+    return (np.exp((1j)*np.random.default_rng().uniform(low=0.0, high=2*np.pi))*np.eye(d,dtype=np.complex128))@cc
