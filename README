@@ -1,6 +1,9 @@
 CVQS Continuous Variable Quantum States
 
 Module for generating commonly encountered CV quantum states.
+Also, matrix product states, coherent states and non-Gaussian states in representations of U(n), semidefinite programs, and other utilities.
+
+Use: download the package, copy the functions you want
 
 Dev: TJV (2019-)
 
