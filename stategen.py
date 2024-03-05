@@ -378,6 +378,9 @@ def hol_to_qp(m):
         rrr.append(vvv[(2*j)+1])
     A=np.transpose(np.array(rrr))
     return A
+
+def qp_to_hol(m):
+    return LA.inv(hol_to_qp(m))
     
 #Cat states, compass states, phase states, twin Fock states
 
