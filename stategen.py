@@ -400,7 +400,7 @@ def discrete_fourier_transform_holevo(M):
         ft[:,k]=[np.exp(-2*np.pi*(1j)*ll*k / M) for ll in range(M)]
     xx=np.block([[(1/np.sqrt(M))*ft,np.zeros((M,M),dtype=np.complex128)],
                  [np.zeros((M,M),dtype=np.complex128),(1/np.sqrt(M))*np.conj(ft)]])
-    return (sg.hol_to_qp(M))@sg.complex_struct_to_a(M)@xx@sg.complex_struct_to_R(M)@(sg.qp_to_hol(M).T)
+    return (hol_to_qp(M))@complex_struct_to_a(M)@xx@complex_struct_to_R(M)@(qp_to_hol(M).T)
     
 #Cat states, compass states, phase states, twin Fock states
 
