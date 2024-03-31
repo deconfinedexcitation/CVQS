@@ -381,6 +381,18 @@ def hol_to_qp(m):
 
 def qp_to_hol(m):
     return LA.inv(hol_to_qp(m))
+
+def complex_struct_to_R(M):
+    #Takes creation and annihilation operator vector (a_{1},...,a_{M},a_{1}^{*},...,a_{M}^{*})
+    #to canonical operators in qp order (q_{1},...,q_{M},p_{1},...,p_{M})
+    uu=np.block([[np.eye(M),-(1j)*np.eye(M)],[np.eye(M),(1j)*np.eye(M)]])
+    return (1/np.sqrt(2))*uu
+
+def complex_struct_to_a(M):
+    #Takes canonical operators in qp order (q_{1},...,q_{M},p_{1},...,p_{M})
+    #to creation and annihilation operator vector (a_{1},...,a_{M},a_{1}^{*},...,a_{M}^{*})
+    uu=np.block([[np.eye(M),np.eye(M)],[(1j)*np.eye(M),-(1j)*np.eye(M)]])
+    return (1/np.sqrt(2))*uu
     
 #Cat states, compass states, phase states, twin Fock states
 
