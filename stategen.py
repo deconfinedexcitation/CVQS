@@ -393,6 +393,14 @@ def complex_struct_to_a(M):
     #to creation and annihilation operator vector (a_{1},...,a_{M},a_{1}^{*},...,a_{M}^{*})
     uu=np.block([[np.eye(M),np.eye(M)],[(1j)*np.eye(M),-(1j)*np.eye(M)]])
     return (1/np.sqrt(2))*uu
+
+def discrete_fourier_transform_holevo(M):
+    ft=np.zeros((M,M),dtype=np.complex128)
+    for k in range(M):
+        ft[:,k]=[np.exp(-2*np.pi*(1j)*ll*k / M) for ll in range(M)]
+    xx=np.block([[(1/np.sqrt(M))*ft,np.zeros((M,M),dtype=np.complex128)],
+                 [np.zeros((M,M),dtype=np.complex128),(1/np.sqrt(M))*np.conj(ft)]])
+    return (sg.hol_to_qp(M))@sg.complex_struct_to_a(M)@xx@sg.complex_struct_to_R(M)@(sg.qp_to_hol(M).T)
     
 #Cat states, compass states, phase states, twin Fock states
 
