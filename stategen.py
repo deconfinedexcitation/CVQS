@@ -411,7 +411,7 @@ def symplectic_diag(cov):
     m=np.shape(cov)[0]
     uu=(1/np.sqrt(2))*np.block([[np.eye(m),np.eye(m)],[(1j)*np.eye(m),(-1j)*np.eye(m)]])
     #Complex version
-    covariance=2*(uu.T)@covariance@(uu.conj())
+    covariance=2*(uu.T)@cov@(uu.conj())
     #Complex version of qp order symplectic form
     kk=np.block([[np.eye(m),np.zeros((m,m))],[np.zeros((m,m)),-np.eye(m)]])
     
