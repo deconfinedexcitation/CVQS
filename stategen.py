@@ -432,7 +432,7 @@ def symplectic_diag(cov):
 
     symplcomp=sqrtm(covariance)@eigvs@LA.inv(sqrtm(william))
     sympl=(uu.conj())@symplcomp@(uu.T)
-
+    #Recall relation \sigma = 2U^{T}\Sigma \bar{U}
     sympleigs=np.real( np.diag( 2*LA.inv(sympl)@cov@(LA.inv(sympl).T) ) )
     return [sympleigs,sympl]
 
