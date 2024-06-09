@@ -6,7 +6,7 @@ from numpy import linalg as LA
 from scipy.special import comb,hermite,factorial
 from sympy import *
 from scipy import linalg
-from scipy.linalg import expm, sinm, cosm
+from scipy.linalg import expm, sinm, cosm,pinvh,inv,norm,svd,sqrtm
 from scipy import sparse
 from scipy.sparse import linalg as las
 from scipy.sparse import csr_matrix,coo_matrix,csc_matrix
