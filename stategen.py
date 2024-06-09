@@ -432,7 +432,9 @@ def symplectic_diag(cov):
 
     symplcomp=sqrtm(covariance)@eigvs@LA.inv(sqrtm(william))
     sympl=(uu.conj())@symplcomp@(uu.T)
-    return sympl
+
+    sympleigs=np.real( np.diag( 2*LA.inv(sympl)@cov@(LA.inv(sympl).T) ) )
+    return [sympleigs,sympl]
 
 #Cat states, compass states, phase states, twin Fock states
 
