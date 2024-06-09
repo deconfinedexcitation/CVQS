@@ -408,7 +408,7 @@ def symplectic_diag(cov):
     #cov should be in qp order
     #Returns S such that cov = S D S^{T} with
     #D = (\lambda_{1},...,\lambda_{m},\lambda_{1},...,\lambda_{m})
-    m=np.shape(cov)[0]
+    m=int(np.shape(cov)[0]/2)
     uu=(1/np.sqrt(2))*np.block([[np.eye(m),np.eye(m)],[(1j)*np.eye(m),(-1j)*np.eye(m)]])
     #Complex version
     covariance=2*(uu.T)@cov@(uu.conj())
