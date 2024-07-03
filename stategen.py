@@ -426,7 +426,7 @@ def symplectic_diag(cov):
     eigvs=aa[1][:,idx]
 
     yy=np.block([[np.eye(m),np.zeros((m,m))],[np.zeros((m,m)),-np.eye(m)]])
-    william = np.diag(np.real(eigs)
+    william = np.diag(np.real(eigs))
     DD=kk@william
 
 
