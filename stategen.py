@@ -411,11 +411,11 @@ def symplectic_diag(cov):
     m=int(np.shape(cov)[0]/2)
     uu=(1/np.sqrt(2))*np.block([[np.eye(m),np.eye(m)],[(1j)*np.eye(m),(-1j)*np.eye(m)]])
     #Complex version
-    covariance=2*(uu.T)@cov@(uu.conj())
+    covariancesaf=2*(uu.T)@cov@(uu.conj())
     #Complex version of qp order symplectic form
     kk=np.block([[np.eye(m),np.zeros((m,m))],[np.zeros((m,m)),-np.eye(m)]])
-    
-    aa=LA.eig( sqrtm(covariance)@kk@sqrtm(covariance) )
+    rrr=sqrtm(covariance)@kk@sqrtm(covariance)
+    aa=LA.eig( rrr )
     
     #argsort is lower to highest
     idx = np.flip(aa[0].argsort())
@@ -426,15 +426,16 @@ def symplectic_diag(cov):
     eigvs=aa[1][:,idx]
 
     yy=np.block([[np.eye(m),np.zeros((m,m))],[np.zeros((m,m)),-np.eye(m)]])
-    william = yy@eigs
-    william = np.diag(william)
+    william = np.diag(np.real(eigs)
+    DD=kk@william
 
 
-    symplcomp=sqrtm(covariance)@eigvs@LA.inv(sqrtm(william))
+    symplcomp=sqrtm(covariancesaf)@eigvs@LA.inv(sqrtm(DD))
     sympl=(uu.conj())@symplcomp@(uu.T)
+    rs=np.real(sympl)
     #Recall relation \sigma = 2U^{T}\Sigma \bar{U}
-    sympleigs=np.real( np.diag( 2*LA.inv(sympl)@cov@(LA.inv(sympl).T) ) )
-    return [sympleigs,sympl]
+    sympleigs=np.real( np.diag( LA.inv(rs)@cov@(LA.inv(rs).T) ) )
+    return [sympleigs,rs]
 
 #Cat states, compass states, phase states, twin Fock states
 
