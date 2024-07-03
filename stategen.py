@@ -414,7 +414,7 @@ def symplectic_diag(cov):
     covariancesaf=2*(uu.T)@cov@(uu.conj())
     #Complex version of qp order symplectic form
     kk=np.block([[np.eye(m),np.zeros((m,m))],[np.zeros((m,m)),-np.eye(m)]])
-    rrr=sqrtm(covariance)@kk@sqrtm(covariance)
+    rrr=sqrtm(covariancesaf)@kk@sqrtm(covariancesaf)
     aa=LA.eig( rrr )
     
     #argsort is lower to highest
