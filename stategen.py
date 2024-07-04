@@ -402,40 +402,6 @@ def discrete_fourier_transform_holevo(M):
                  [np.zeros((M,M),dtype=np.complex128),(1/np.sqrt(M))*np.conj(ft)]])
     return (hol_to_qp(M))@complex_struct_to_a(M)@xx@complex_struct_to_R(M)@(qp_to_hol(M).T)
 
-def symplectic_diag(cov):
-    #This script utilizes Safranek's method for the symplectic diagonalization
-    #but for covariance matrices in qp order instead of complex version
-    #cov should be in qp order
-    #Returns S such that cov = S D S^{T} with
-    #D = (\lambda_{1},...,\lambda_{m},\lambda_{1},...,\lambda_{m})
-    m=int(np.shape(cov)[0]/2)
-    uu=(1/np.sqrt(2))*np.block([[np.eye(m),np.eye(m)],[(1j)*np.eye(m),(-1j)*np.eye(m)]])
-    #Complex version
-    covariancesaf=2*(uu.T)@cov@(uu.conj())
-    #Complex version of qp order symplectic form
-    kk=np.block([[np.eye(m),np.zeros((m,m))],[np.zeros((m,m)),-np.eye(m)]])
-    rrr=sqrtm(covariancesaf)@kk@sqrtm(covariancesaf)
-    aa=LA.eig( rrr )
-    
-    #argsort is lower to highest
-    idx = np.flip(aa[0].argsort())
-
-    #Flip last half to get pairs in order
-    idx[m:]=np.flip(idx[m:])
-    eigs=aa[0][idx]
-    eigvs=aa[1][:,idx]
-
-    yy=np.block([[np.eye(m),np.zeros((m,m))],[np.zeros((m,m)),-np.eye(m)]])
-    william = np.diag(np.real(eigs))
-    DD=kk@william
-
-
-    symplcomp=sqrtm(covariancesaf)@eigvs@LA.inv(sqrtm(DD))
-    sympl=(uu.conj())@symplcomp@(uu.T)
-    rs=np.real(sympl)
-    #Recall relation \sigma = 2U^{T}\Sigma \bar{U}
-    sympleigs=np.real( np.diag( LA.inv(rs)@cov@(LA.inv(rs).T) ) )
-    return [sympleigs,rs]
 
 #Cat states, compass states, phase states, twin Fock states
 
