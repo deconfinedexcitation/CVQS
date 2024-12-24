@@ -49,6 +49,11 @@ def zyz(xx):
 ##Gates for qudit quantum computation
 ##See Sanders ``Qudits and high-dimensional...''
 
+def elemat(i,j,d):
+    aa=np.zeros((d,d))
+    aa[i,j]=1
+    return aa
+
 def cshift(d):
     #Create vectors \ket{j}
     pp=[list(np.zeros(d)) for j in range(d)]
