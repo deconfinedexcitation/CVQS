@@ -49,7 +49,7 @@ def zyz(xx):
 ##Gates for qudit quantum computation
 ##See Sanders ``Qudits and high-dimensional...''
 
-def elemat(i,j,d):
+def matunit(i,j,d):
     aa=np.zeros((d,d))
     aa[i,j]=1
     return aa
