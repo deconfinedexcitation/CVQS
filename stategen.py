@@ -66,6 +66,68 @@ def sqham(r,cut):
     H=coo_matrix((Hdata, (Hrow, Hcol)), shape=(cut, cut)).tocsr()
     H=H-np.transpose(H)
     return H
+def bsgen(theta,phi,cut):
+    #### \theta ( e^{ i \phi }a_{1}a_{2}^{*} - h.c.
+    #### Use -theta and -phi if you want to swap the modes.
+    #This is a*
+    Hrow=[]
+    Hcol=[]
+    Hdata=[]
+    for k in range(cut):
+        for j in range(cut):
+            if j==k+1:
+                Hcol.append(k)
+                Hrow.append(j)
+                Hdata.append(np.sqrt(k+1))
+    Hrow=np.int_(np.asarray(Hrow))
+    Hcol=np.int_(np.asarray(Hcol) )
+    Hdata=np.asarray(Hdata)
+    H=coo_matrix((Hdata, (Hrow, Hcol)), shape=(cut, cut)).tocsr()
+
+    Y=H.T
+
+    cc=np.exp((1j)*phi)*sp.sparse.kron(Y,H)
+    return theta*(cc-(cc.conj().T))
+
+def rot(phi,cut):
+    #### This is e^{ i \phi a^* a }
+    Hrow=[]
+    Hcol=[]
+    Hdata=[]
+    for k in range(cut):
+        for j in range(cut):
+            if j==k:
+                Hcol.append(k)
+                Hrow.append(j)
+                Hdata.append(np.exp((1j)*phi*k))
+    Hrow=np.int_(np.asarray(Hrow))
+    Hcol=np.int_(np.asarray(Hcol) )
+    Hdata=np.asarray(Hdata)
+    H=coo_matrix((Hdata, (Hrow, Hcol)), shape=(cut, cut)).tocsr()
+    return H
+
+def czgen(g,cut):
+    Hrow=[]
+    Hcol=[]
+    Hdata=[]
+    for k in range(cut):
+        for j in range(cut):
+            if j==k+1:
+                Hcol.append(k)
+                Hrow.append(j)
+                Hdata.append(np.sqrt(k+1))
+    Hrow=np.int_(np.asarray(Hrow))
+    Hcol=np.int_(np.asarray(Hcol) )
+    Hdata=np.asarray(Hdata)
+    H=coo_matrix((Hdata, (Hrow, Hcol)), shape=(cut, cut)).tocsr()
+
+    Y=H.T
+
+    q=(1/np.sqrt(2))*(H+Y)
+    return (1j)*g*sp.sparse.kron(q,q)
+
+def sparseid(cut):
+    return sp.sparse.identity(cut).tocsr()
     
 #Kerr gate in Fock basis.
 
