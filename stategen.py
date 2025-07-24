@@ -70,9 +70,6 @@ def sqham(r,cut):
 def bsgen(theta,phi,cut):
     #### \theta ( e^{ i \phi }a_{1}a_{2}^{*} - h.c.
     #### Use -theta and -phi if you want to swap the modes.
-    #This doesn't give the same result on coherent states as TheWalrus
-    #Sparse matrix exponentiation
-    ### may not be a valid method here.
     
     #This is a*
     Hrow=[]
@@ -112,7 +109,6 @@ def rot(phi,cut):
     return H
 
 def czgen(g,cut):
-#This doesn't give the same result on coherent states as TheWalrus
     Hrow=[]
     Hcol=[]
     Hdata=[]
