@@ -119,7 +119,7 @@ def numgen(beta,cut):
             if j==k:
                 Hcol.append(k)
                 Hrow.append(j)
-                Hdata.append(-beta*k))
+                Hdata.append(-beta*k)
     Hrow=np.int_(np.asarray(Hrow))
     Hcol=np.int_(np.asarray(Hcol) )
     Hdata=np.asarray(Hdata)
