@@ -107,6 +107,24 @@ def rot(phi,cut):
     Hdata=np.asarray(Hdata)
     H=coo_matrix((Hdata, (Hrow, Hcol)), shape=(cut, cut)).tocsr()
     return H
+    
+def numgen(beta,cut):
+    #### This is -\beta a^* a. Use with expm_multiply
+    #### for oscillator semigroup or Fock damping
+    Hrow=[]
+    Hcol=[]
+    Hdata=[]
+    for k in range(cut):
+        for j in range(cut):
+            if j==k:
+                Hcol.append(k)
+                Hrow.append(j)
+                Hdata.append(-beta*k))
+    Hrow=np.int_(np.asarray(Hrow))
+    Hcol=np.int_(np.asarray(Hcol) )
+    Hdata=np.asarray(Hdata)
+    H=coo_matrix((Hdata, (Hrow, Hcol)), shape=(cut, cut)).tocsr()
+    return H
 
 def czgen(g,cut):
     Hrow=[]
