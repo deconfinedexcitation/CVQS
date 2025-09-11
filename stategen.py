@@ -68,6 +68,8 @@ def qquad(cut):
 #Generator of real squeezing
 
 def sqham(r,cut):
+#### This is -(r/2)(a^*2 - a^2), so that exp map gives Mandel's unitary squeezing
+#### operator
     Hrow=[]
     Hcol=[]
     Hdata=[]
