@@ -85,7 +85,7 @@ def sqham(r,cut):
     return H
     
 def bsgen(theta,phi,cut):
-    #### \theta ( e^{ i \phi }a_{1}a_{2}^{*} - h.c.
+    #### \theta ( e^{ i \phi }a_{2}^{*}a_{1} - h.c. )
     #### Use -theta and -phi if you want to swap the modes.
     
     #This is a*
