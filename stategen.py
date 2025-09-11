@@ -47,6 +47,23 @@ def dispham(alph,cut):
     H=coo_matrix((Hdata, (Hrow, Hcol)), shape=(cut, cut)).tocsr()
     H=H-np.conj(np.transpose(H))
     return H
+    
+def qquad(cut):
+    Hrow=[]
+    Hcol=[]
+    Hdata=[]
+    for k in range(cut):
+        for j in range(cut):
+            if j==k+1:
+                Hcol.append(k)
+                Hrow.append(j)
+                Hdata.append(np.sqrt(k+1))
+    Hrow=np.int_(np.asarray(Hrow))
+    Hcol=np.int_(np.asarray(Hcol) )
+    Hdata=np.asarray(Hdata)
+    H=coo_matrix((Hdata, (Hrow, Hcol)), shape=(cut, cut)).tocsr()
+    H=H+np.conj(np.transpose(H))
+    return (1/np.sqrt(2))*H    
 
 #Generator of real squeezing
 
